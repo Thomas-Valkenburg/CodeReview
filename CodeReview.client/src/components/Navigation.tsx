@@ -6,7 +6,7 @@ const Navigation = () => {
                     <a className='navbar-brand' href='/'>
                         CodeReview
                     </a>
-                    <form style={{'position': "absolute", 'left': "50%", 'width': "20rem", 'margin-left': "-10rem"}} >
+                    <form style={{'position': "absolute", 'left': "50%", 'width': "20rem", 'marginLeft': "-10rem"}} >
                         <input type="text" placeholder="Filter" className="form-control form-text"></input>
                     </form>
                     <a className="nav-link" href="/">
