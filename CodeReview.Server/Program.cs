@@ -1,40 +1,51 @@
+using DAL;
+using Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace CodeReview.Server;
 
 public class Program
 {
-	public static void Main(string[] args)
-	{
-		var builder = WebApplication.CreateBuilder(args);
+    public static void Main(string[] args)
+    {
+        var builder = WebApplication.CreateBuilder(args);
 
-		// Add services to the container.
+        // Add services to the container.
+        builder.Services.AddScoped<IDbContext, Context>();
 
-		builder.Services.AddControllers();
-		// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-		builder.Services.AddEndpointsApiExplorer();
-		builder.Services.AddSwaggerGen();
+        // Add DbContext
+        var connectionString = builder.Configuration.GetConnectionString("EFCoreSqlite") ??
+                                    throw new InvalidOperationException("Connection string 'EFCoreSqlite' not found.");
+        builder.Services.AddDbContext<Context>(options =>
+        {
+            options.UseSqlite(connectionString);
+        });
 
-		var app = builder.Build();
+        builder.Services.AddControllers();
+        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen();
 
-		app.UseDefaultFiles();
-		app.UseStaticFiles();
+        var app = builder.Build();
 
-		// Configure the HTTP request pipeline.
-		if (app.Environment.IsDevelopment())
-		{
-			app.UseSwagger();
-			app.UseSwaggerUI();
-		}
+        app.UseDefaultFiles();
+        app.UseStaticFiles();
 
-		app.UseHttpsRedirection();
+        // Configure the HTTP request pipeline.
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI();
+        }
 
-		app.UseAuthorization();
+        app.UseHttpsRedirection();
 
+        app.UseAuthorization();
 
-		app.MapControllers();
+        app.MapControllers();
 
-		app.MapFallbackToFile("/index.html");
+        app.MapFallbackToFile("/index.html");
 
-		app.Run();
-	}
+        app.Run();
+    }
 }
