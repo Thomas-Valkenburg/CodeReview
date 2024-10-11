@@ -28,6 +28,12 @@ public class Program
 
         var app = builder.Build();
 
+        using (var scope = app.Services.CreateScope())
+        {
+            var context = scope.ServiceProvider.GetRequiredService<Context>();
+            context.Database.Migrate();
+        }
+
         app.UseDefaultFiles();
         app.UseStaticFiles();
 
