@@ -11,9 +11,4 @@ public class Context(DbContextOptions options) : DbContext(options), IDbContext
     public DbSet<Post> Posts { get; set; }
 
     public DbSet<Comment> Comments { get; set; }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        base.OnConfiguring(optionsBuilder);
-    }
 }

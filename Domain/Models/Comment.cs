@@ -7,9 +7,10 @@ public class Comment
 {
     public Comment() { }
 
-    public Comment(User author, string content)
+    public Comment(User author, Post post, string content)
     {
-        Author = author;
+        Author  = author;
+        Post    = post;
         Content = content;
     }
 
@@ -19,6 +20,9 @@ public class Comment
 
     [Required]
     public User Author { get; set; }
+
+    [Required]
+    public Post Post { get; set; }
 
     [StringLength(1000)]
     public string Content { get; set; }
