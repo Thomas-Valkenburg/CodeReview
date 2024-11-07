@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAL;
 
-public class Context(DbContextOptions options) : DbContext(options), IDbContext
+public class Context(DbContextOptions<Context> options) : DbContext(options), IDbContext
 {
     public DbSet<User> Users { get; set; }
 
