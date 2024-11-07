@@ -26,6 +26,6 @@ public class PostController(IDbContext context) : ControllerBase
             return NotFound();
         }
 
-        return post;
+        return Ok(post);
     }
 }
