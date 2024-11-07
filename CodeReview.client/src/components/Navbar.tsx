@@ -9,7 +9,7 @@ const navbar = () => {
                     <form style={{ 'position': "absolute", 'left': "50%", 'width': "20rem", 'marginLeft': "-10rem" }}>
                         <input type="text" placeholder="Filter" className="form-control form-text"></input>
                     </form>
-                    <a className="nav-link" href="/">
+                    <a className="nav-link" href="/account/login">
                         Username
                     </a>
                 </div>

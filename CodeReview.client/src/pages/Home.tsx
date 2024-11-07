@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Post from "../Models/Post";
 
-function Home() {
+function home() {
     const [posts, setPosts] = useState<Post[]>();
 
     async function populatePosts() {
@@ -38,4 +38,4 @@ function Home() {
     );
 }
 
-export default Home;
+export default home;
