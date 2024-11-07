@@ -21,7 +21,7 @@ public class PostController(IDbContext context) : ControllerBase
     {
         var post = await context.Set<Post>().FindAsync(id);
 
-        if (post == null)
+        if (post is null)
         {
             return NotFound();
         }
