@@ -1,4 +1,4 @@
-name: Build & Publish Docker Image
+name: Frontend Build and Publish Docker Image
 
 on:
   workflow_dispatch:
@@ -6,7 +6,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  publish:
+  Build_and_Publish_Docker_Image:
     runs-on: ubuntu-latest
 
     steps:
