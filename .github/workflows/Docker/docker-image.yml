@@ -1,0 +1,19 @@
+name: Build & Publish Docker Image
+
+on:
+  workflow_dispatch:
+  push:
+    branches: "main"
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: build
+        run: docker build . -t thomas092003/codereview:latest
+      - name: push
+        run: docker push thomas092003/codereview:latest
+    
