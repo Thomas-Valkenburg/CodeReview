@@ -14,6 +14,10 @@ jobs:
   Build:
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: ./CodeReview.client/
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -33,6 +37,10 @@ jobs:
     runs-on: ubuntu-latest
 
     needs: Build
+
+    defaults:
+      run:
+        working-directory: ./CodeReview.client/
 
     steps:
       - name: Checkout code
