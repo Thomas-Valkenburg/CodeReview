@@ -15,6 +15,8 @@ FROM node:${NODE_VERSION}-alpine as base
 # Set working directory for all build stages.
 WORKDIR /usr/src/app
 
+# Upgrade npm to the latest version.
+RUN npm install -g npm@latest
 
 ################################################################################
 # Create a stage for installing production dependecies.
