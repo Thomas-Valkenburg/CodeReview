@@ -60,5 +60,8 @@ jobs:
       - name: Install Router
         run: npm install react-router-dom
 
+      - name: Install Mocha
+        run: npm install mocha
+
       - name: Test
         run: npm run test
