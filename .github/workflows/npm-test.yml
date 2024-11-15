@@ -37,7 +37,7 @@ jobs:
         run: npm install @types/react-router-dom
 
       - name: Build
-        run: npm build
+        run: npm run build
 
   Test:
     runs-on: ubuntu-latest
@@ -61,4 +61,4 @@ jobs:
         run: npm install
 
       - name: Test
-        run: npm test
+        run: npm run test
