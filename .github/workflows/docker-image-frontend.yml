@@ -13,9 +13,9 @@ jobs:
       - name: checkout
         uses: actions/checkout@v4
       - name: build
-        run: docker build . -t thomas092003/codereview:latest
+        run: docker build ./CodeReview.client/ -t thomas092003/codereview-frontend:latest
       - name: login
         run: docker login -u thomas092003 -p ${{ secrets.DOCKER_TOKEN }}
       - name: push
-        run: docker push thomas092003/codereview:latest
+        run: docker push thomas092003/codereview-frontend:latest
     
