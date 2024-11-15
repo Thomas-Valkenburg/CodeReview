@@ -11,7 +11,7 @@ export default tseslint.config(
         settings: {
             react: {
                 version: 18.3
-            },
+            }
         },
         extends: [
             js.configs.recommended,
@@ -24,13 +24,13 @@ export default tseslint.config(
             globals: globals.browser,
             parserOptions: {
                 project: ['./tsconfig.node.json', './tsconfig.app.json'],
-                tsconfigRootDir: import.meta.dirname,
-            },
+                tsconfigRootDir: import.meta.dirname
+            }
         },
         plugins: {
             'react-hooks': reactHooks,
             'react-refresh': reactRefresh,
-            'react': react,
+            'react': react
         },
         rules: {
             ...react.configs.recommended.rules,
@@ -38,8 +38,8 @@ export default tseslint.config(
             ...reactHooks.configs.recommended.rules,
             'react-refresh/only-export-components': [
                 'warn',
-                { allowConstantExport: true },
-            ],
-        },
+                { allowConstantExport: true }
+            ]
+        }
     },
 )

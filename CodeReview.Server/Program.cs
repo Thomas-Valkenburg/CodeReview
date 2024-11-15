@@ -1,40 +1,100 @@
+using DAL;
+using DAL_Account;
+using Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 
 namespace CodeReview.Server;
 
 public class Program
 {
-	public static void Main(string[] args)
-	{
-		var builder = WebApplication.CreateBuilder(args);
+    public static void Main(string[] args)
+    {
+        var builder = WebApplication.CreateBuilder(args);
 
-		// Add services to the container.
+        // Add services to the container.
+        builder.Services.AddScoped<IDbContext, Context>();
+        builder.Services.AddScoped<AccountContext>();
 
-		builder.Services.AddControllers();
-		// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-		builder.Services.AddEndpointsApiExplorer();
-		builder.Services.AddSwaggerGen();
+        // Add DbContext(s)
+        var connectionString = builder.Configuration.GetConnectionString("EFCoreSqlite") ??
+                               throw new InvalidOperationException("Connection string 'EFCoreSqlite' not found.");
+        builder.Services.AddDbContext<Context>(options => { options.UseSqlite(connectionString); });
 
-		var app = builder.Build();
+        var accountConnectionString = builder.Configuration.GetConnectionString("EFCoreAccountSqlite") ??
+                                      throw new InvalidOperationException(
+                                          "Connection string 'EFCoreAccountSqlite' not found.");
 
-		app.UseDefaultFiles();
-		app.UseStaticFiles();
+        builder.Services.AddDbContext<AccountContext>(options => { options.UseSqlite(accountConnectionString); });
 
-		// Configure the HTTP request pipeline.
-		if (app.Environment.IsDevelopment())
-		{
-			app.UseSwagger();
-			app.UseSwaggerUI();
-		}
+        builder.Services.AddControllers();
+        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen(options =>
+        {
+            options.AddSecurityDefinition("Identity Framework", new OpenApiSecurityScheme
+            {
+                Name = "Login",
+                Type = SecuritySchemeType.Http,
+                Scheme = "basic",
+                In = ParameterLocation.Cookie
+            });
 
-		app.UseHttpsRedirection();
+            options.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "basic"
+                        }
+                    },
+                    []
+                }
+            });
+        });
 
-		app.UseAuthorization();
+        builder.Services.AddAuthorization();
 
+        builder.Services.AddIdentityApiEndpoints<AccountUser>(options =>
+        {
+            options.SignIn.RequireConfirmedEmail = false;
+            options.Password.RequireNonAlphanumeric = false;
+        }).AddEntityFrameworkStores<AccountContext>();
 
-		app.MapControllers();
+        var app = builder.Build();
 
-		app.MapFallbackToFile("/index.html");
+        // Migrate databases
+        using (var scope = app.Services.CreateScope())
+        {
+            var context = scope.ServiceProvider.GetRequiredService<Context>();
+            var accountContext = scope.ServiceProvider.GetRequiredService<AccountContext>();
 
-		app.Run();
-	}
+            context.Database.Migrate();
+            accountContext.Database.Migrate();
+        }
+
+        // Configure the HTTP request pipeline.
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI();
+
+            app.MapSwagger().RequireAuthorization();
+        }
+
+        app.UseHttpsRedirection();
+
+        app.UseAuthorization();
+
+        app.MapIdentityApi<AccountUser>();
+
+        app.MapControllers();
+
+        app.MapFallbackToFile("/index.html");
+
+        app.Run();
+    }
 }

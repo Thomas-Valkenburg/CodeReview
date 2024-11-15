@@ -1,0 +1,21 @@
+name: Build & Publish Docker Image
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: build
+        run: docker build ./CodeReview.client/ -t thomas092003/codereview-frontend:latest
+      - name: login
+        run: docker login -u thomas092003 -p ${{ secrets.DOCKER_TOKEN }}
+      - name: push
+        run: docker push thomas092003/codereview-frontend:latest
+    
