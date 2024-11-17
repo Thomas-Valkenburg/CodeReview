@@ -6,14 +6,14 @@ import Home from "./pages/Home.tsx"
 import Navbar from "./components/Navbar.tsx"
 import Footer from "./components/Footer.tsx"
 
-createRoot(document.getElementById("root")).render(
+createRoot(document.getElementById("root")!).render(
     <StrictMode>
         <Router>
             <div className="container">
                 <Navbar/>
                 <main role="main" className="pb-3">
                     <Routes>
-                        <Route exact path="/" element={<Home />}/>
+                        <Route path="/" element={<Home />}/>
                     </Routes>
                 </main>
                 <Footer/>

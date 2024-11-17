@@ -1,7 +1,4 @@
-# This workflow will build a .NET project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
-
-name: .NET Test
+name: NPM Test
 
 on:
   workflow_dispatch:
@@ -14,6 +11,9 @@ jobs:
   Build:
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: ./CodeReview.client/
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -21,10 +21,13 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: latest
+          node-version: 20.17.0
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run: npm install
+        
+      - name: Install Router
+        run: npm install react-router-dom
 
       - name: Build
         run: npm run build
@@ -34,6 +37,9 @@ jobs:
 
     needs: Build
 
+    defaults:
+      run:
+        working-directory: ./CodeReview.client/
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -45,6 +51,12 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+        
+      - name: Install Router
+        run: npm install react-router-dom
+
+      - name: Install Mocha
+        run: npm install mocha
 
       - name: Test
-        run: npm test
+        run: npm run test
