@@ -1,22 +1,23 @@
 function login() {
-    async function LoginPost(email: string, password: string) {
+
+    const submit = async (email: string, password: string) => {
         const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            method: "POST",
+            headers: { 'Content-Type': "application/json" },
             body: JSON.stringify({ email: email, password: password })
         }
 
-        var response = await fetch("/login", requestOptions);
+        const response = await fetch("/login", requestOptions);
     }
 
     return (
-        <form className="d-flex flex-column m-auto gap-3 mt-2 col-5" onSubmit={LoginPost(arguments.name, arguments.password)}>
+        <form className="d-flex flex-column m-auto gap-3 mt-2 col-5">
             <label htmlFor="email" className="form-label">Email</label>
-            <input type="text" name="email" className="form-control"></input>
+            <input type="email" name="email" className="form-control" required></input>
             <label htmlFor="password">Password</label>
-            <input type="password" name="password" className="form-control"></input>
+            <input type="password" name="password" className="form-control" required></input>
             <div className="d-flex flex-column col-3 align-items-center w-100">
-                <input type="submit" className="btn btn-outline-success" />
+                <input type="submit" className="btn btn-outline-success" onClick={submit} />
             </div>
         </form>
     );
