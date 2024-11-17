@@ -6,7 +6,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  Build_and_Publish_Docker_Image:
+  Build_and_Publish:
     runs-on: ubuntu-latest
 
     steps:
