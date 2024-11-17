@@ -57,7 +57,6 @@ public class Program
         });
 
         builder.Services.AddAuthorization();
-        builder.Services.AddAuthentication();
 
         builder.Services.AddIdentityApiEndpoints<AccountUser>(options =>
         {
@@ -89,7 +88,6 @@ public class Program
         app.UseHttpsRedirection();
 
         app.UseAuthorization();
-        app.UseAuthentication();
 
         app.MapIdentityApi<AccountUser>();
 
