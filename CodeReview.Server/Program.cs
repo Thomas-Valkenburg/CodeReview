@@ -1,6 +1,7 @@
 using DAL;
 using DAL_Account;
 using Core.Interfaces;
+using DAL.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -16,6 +17,10 @@ public class Program
         builder.Services.AddScoped<IDbContext, Context>();
         builder.Services.AddScoped<AccountContext>();
 
+        builder.Services.AddScoped<IUserService, UserService>();
+        builder.Services.AddScoped<IPostService, PostService>();
+        builder.Services.AddScoped<ICommentService, CommentService>();
+
         // Add DbContext(s)
         var connectionString = builder.Configuration.GetConnectionString("EFCoreSqlite") ??
                                throw new InvalidOperationException("Connection string 'EFCoreSqlite' not found.");
@@ -28,6 +33,7 @@ public class Program
         builder.Services.AddDbContext<AccountContext>(options => { options.UseSqlite(accountConnectionString); });
 
         builder.Services.AddControllers();
+
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen(options =>

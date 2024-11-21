@@ -1,31 +1,30 @@
 ﻿using Core.Interfaces;
 using Core.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace CodeReview.Server.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class PostController(IDbContext context) : ControllerBase
+public class PostController(IPostService postService) : ControllerBase
 {
     [HttpGet]
     [Route("list")]
-    public async Task<ActionResult<IEnumerable<Post>>> GetPostList()
+    public Task<ActionResult<IEnumerable<Post>>> GetPostList()
     {
-        return await context.Set<Post>().Take(10).ToListAsync();
+        return Task.FromResult<ActionResult<IEnumerable<Post>>>(Ok(postService.Take(10)));
     }
 
     [HttpGet]
-    public async Task<ActionResult<Post>> GetPost(int id)
+    public Task<ActionResult<Post>> GetPost(int id)
     {
-        var post = await context.Set<Post>().FindAsync(id);
+        var post = postService.GetById(id);
 
         if (post is null)
         {
-            return NotFound();
+            return Task.FromResult<ActionResult<Post>>(NotFound());
         }
 
-        return Ok(post);
+        return Task.FromResult<ActionResult<Post>>(Ok(post));
     }
 }
