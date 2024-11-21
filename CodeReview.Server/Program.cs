@@ -1,6 +1,6 @@
 using DAL;
 using DAL_Account;
-using Domain.Interfaces;
+using Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 

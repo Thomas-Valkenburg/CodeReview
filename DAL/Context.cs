@@ -1,5 +1,5 @@
-﻿using Domain.Interfaces;
-using Domain.Models;
+﻿using Core.Interfaces;
+using Core.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace DAL;

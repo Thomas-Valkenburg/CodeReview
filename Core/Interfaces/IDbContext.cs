@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Domain.Interfaces;
+namespace Core.Interfaces;
 
 public interface IDbContext : IDisposable
 {

@@ -1,16 +1,16 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Domain.Models;
+namespace Core.Models;
 
-public class Comment
+public class Post
 {
-    public Comment() { }
+    public Post() { }
 
-    public Comment(User author, Post post, string content)
+    public Post(User author, string title, string content)
     {
-        Author  = author;
-        Post    = post;
+        Author = author;
+        Title = title;
         Content = content;
     }
 
@@ -18,11 +18,12 @@ public class Comment
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
 
+    [ForeignKey("AuthorId")]
     [Required]
     public User Author { get; set; }
 
-    [Required]
-    public Post Post { get; set; }
+    [StringLength(100)]
+    public string Title { get; set; }
 
     [StringLength(1000)]
     public string Content { get; set; }
