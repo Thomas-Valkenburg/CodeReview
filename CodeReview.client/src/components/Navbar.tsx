@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 const navbar = () => {
     const [email, setEmail] = useState<String>();
 
-    async function PopulateAccountInformation() {
+    async function populateAccountInformation() {
         await fetch("/manage/info", {
             credentials: "include"
         })
@@ -19,7 +19,7 @@ const navbar = () => {
     }
 
     useEffect(() => {
-        PopulateAccountInformation();
+        populateAccountInformation();
     }, []);
 
     const emailElement = email == undefined

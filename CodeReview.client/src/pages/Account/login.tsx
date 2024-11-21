@@ -16,12 +16,20 @@ function login() {
             headers: { 'Content-Type': "application/json" },
             body: JSON.stringify(data)
         })
-        .then((response) => {
-// ReSharper disable once TsResolvedFromInaccessibleModule
-            setErrorMessage(response.statusText);
+        .then(async (response) => {
+            // ReSharper disable once TsResolvedFromInaccessibleModule
+            if (response.ok) {
+                window.location.href = "/";
+                return;
+            };
+
+            // ReSharper disable once TsResolvedFromInaccessibleModule
+            const body = await response.json();
+            setErrorMessage(body.title);
         })
         .catch((error) => {
-            setErrorMessage(error);
+            setErrorMessage("Unexpected error.");
+            console.log(error);
         });
     }
 
@@ -34,7 +42,7 @@ function login() {
                 <label htmlFor="password">Password</label>
                 <input type="password" name="password" className="form-control" required></input>
                 <div className="d-flex flex-column col-3 align-items-center w-100">
-                    <input type="submit" value="Submit" className="btn btn-outline-success"/>
+                    <input type="submit" value="Log in" className="btn btn-outline-success"/>
                 </div>
             </form >
         </>
