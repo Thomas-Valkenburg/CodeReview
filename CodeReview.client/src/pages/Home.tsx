@@ -1,15 +1,21 @@
 import { useEffect, useState } from "react";
 import Post from "../Models/Post";
 
-function Home() {
+function home() {
     const [posts, setPosts] = useState<Post[]>();
 
     async function populatePosts() {
-        const response = await fetch("/api/Post/list");
-// ReSharper disable once TsResolvedFromInaccessibleModule
-        const data = await response.json();
-        console.log(data);
-        setPosts(data);
+        await fetch("/api/Post/list",
+        {
+            credentials: "include"
+        })
+        .then(async (response) => {
+            // ReSharper disable once TsResolvedFromInaccessibleModule
+            setPosts(await response.json());
+        })
+        .catch((error) => {
+            console.log(error);
+        });
     }
 
     useEffect(() => {
@@ -38,4 +44,4 @@ function Home() {
     );
 }
 
-export default Home;
+export default home;
