@@ -16,11 +16,11 @@ public class Post
 
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int Id { get; set; }
+    public int Id { get; init; }
 
     [ForeignKey("AuthorId")]
     [Required]
-    public User Author { get; set; }
+    public User Author { get; init; }
 
     [StringLength(100)]
     public string Title { get; set; }
@@ -28,5 +28,5 @@ public class Post
     [StringLength(1000)]
     public string Content { get; set; }
 
-    public List<Comment> Comments { get; set; } = [];
+    public List<Comment> Comments { get; init; } = [];
 }
