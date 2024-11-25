@@ -2,7 +2,7 @@
 using Core.Models;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace CodeReview_Test.Services.UserService;
+namespace CodeReview_Test.Integration.Services;
 
 public class UserServiceTest
 {

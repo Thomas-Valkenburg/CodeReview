@@ -32,6 +32,8 @@ internal static class ServiceProviderHandler
         services.AddScoped<IPostService, DAL.Services.PostService>();
         services.AddScoped<ICommentService, DAL.Services.CommentService>();
 
+        services.AddTransient<UserHandler>();
+
         _serviceProvider = services.BuildServiceProvider();
     }
 }
