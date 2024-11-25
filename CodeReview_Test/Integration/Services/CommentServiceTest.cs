@@ -1,4 +1,4 @@
-﻿namespace CodeReview_Test.Services.CommentService;
+﻿namespace CodeReview_Test.Integration.Services;
 
 public class CommentServiceTest
 {
