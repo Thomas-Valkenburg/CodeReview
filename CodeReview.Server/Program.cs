@@ -1,3 +1,6 @@
+using Core.Handlers;
+using DAL;
+using DAL_Account;
 using Core.Interfaces;
 using Core.Models;
 using DAL;
@@ -8,7 +11,7 @@ using Microsoft.OpenApi.Models;
 
 namespace CodeReview.Server;
 
-public class Program
+public static class Program
 {
     public static void Main(string[] args)
     {
@@ -22,6 +25,8 @@ public class Program
         builder.Services.AddScoped<IPostService, PostService>();
         builder.Services.AddScoped<ICommentService, CommentService>();
 
+        builder.Services.AddTransient<UserHandler>();
+
         // Add DbContext(s)
         var connectionString = builder.Configuration.GetConnectionString("EFCoreSqlite") ??
                                throw new InvalidOperationException("Connection string 'EFCoreSqlite' not found.");
@@ -30,7 +35,6 @@ public class Program
         var accountConnectionString = builder.Configuration.GetConnectionString("EFCoreAccountSqlite") ??
                                       throw new InvalidOperationException(
                                           "Connection string 'EFCoreAccountSqlite' not found.");
-
         builder.Services.AddDbContext<AccountContext>(options => { options.UseSqlite(accountConnectionString); });
 
         builder.Services.AddControllers();
