@@ -1,4 +1,5 @@
-﻿using Core.Interfaces;
+﻿using Core.Handlers;
+using Core.Interfaces;
 using DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,6 +32,8 @@ internal static class ServiceProviderHandler
         services.AddScoped<IUserService, DAL.Services.UserService>();
         services.AddScoped<IPostService, DAL.Services.PostService>();
         services.AddScoped<ICommentService, DAL.Services.CommentService>();
+
+        services.AddTransient<UserHandler>();
 
         _serviceProvider = services.BuildServiceProvider();
     }
