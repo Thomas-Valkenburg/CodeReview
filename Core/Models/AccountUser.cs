@@ -1,7 +1,6 @@
-﻿using Core.Models;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 
-namespace DAL_Account;
+namespace Core.Models;
 
 public class AccountUser : IdentityUser
 {
