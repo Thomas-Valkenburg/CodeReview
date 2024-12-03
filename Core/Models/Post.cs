@@ -28,5 +28,9 @@ public class Post
     [StringLength(1000)]
     public string Content { get; set; }
 
+    public DateTime CreatedAt { get; set; } = DateTime.Now;
+
     public List<Comment> Comments { get; init; } = [];
+
+    public int Likes { get; set; } = 0;
 }

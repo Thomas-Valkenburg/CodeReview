@@ -7,6 +7,8 @@ public class UserService(Context context) : IUserService
 {
     public User? GetById(int id) => context.Users.Find(id);
 
+    public User? GetByAccountUserId(string accountUserId) => context.Users.FirstOrDefault(x => x.AccountUserId == accountUserId);
+
     public void Create(User user) => context.Users.Add(user);
 
     public void Update(User user) => context.Users.Update(user);
