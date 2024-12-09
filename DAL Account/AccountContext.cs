@@ -6,5 +6,4 @@ namespace DAL_Account;
 
 public class AccountContext(DbContextOptions<AccountContext> options) : IdentityDbContext<AccountUser>(options)
 {
-    public DbSet<AccountUser> AccountUsers { get; set; }
 }

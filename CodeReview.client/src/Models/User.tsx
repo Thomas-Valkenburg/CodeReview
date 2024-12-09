@@ -1,11 +1,8 @@
-import post from "./Post";
-import comment from "./Comment";
-
-interface user {
+interface IUser {
     id: number;
     username: string;
-    posts: post[];
-    comments: comment[];
+    posts: number[];
+    comments: number[];
 }
 
-export default user;
+export default IUser;

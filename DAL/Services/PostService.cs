@@ -1,4 +1,5 @@
-﻿using Core.Interfaces;
+﻿using System.Buffers;
+using Core.Interfaces;
 using Core.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,7 +7,7 @@ namespace DAL.Services;
 
 public class PostService(Context context) : IPostService
 {
-    public Post? GetById(int id) => context.Posts.Find(id);
+    public Post? GetById(int id) => context.Posts.Include(post => post.Author).FirstOrDefault(x => x.Id == id);
 
     public List<Post>? GetAllFromUser(int ownerId)
     {
@@ -15,7 +16,7 @@ public class PostService(Context context) : IPostService
         return user?.Posts;
     }
 
-    public List<Post> Take(int amount) => context.Posts.Take(amount).ToList();
+    public List<Post> Take(int amount) => context.Posts.Include(post => post.Author).Take(amount).ToList();
 
     public void Create(Post post) => context.Posts.Add(post);
 

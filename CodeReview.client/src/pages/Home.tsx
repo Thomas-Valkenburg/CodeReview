@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import Post from "../Models/Post";
+import PostView from "../Models/PostView";
 
 function home() {
-    const [posts, setPosts] = useState<Post[]>();
+    const [posts, setPosts] = useState<PostView[]>();
 
     async function populatePosts() {
         await fetch("/api/Post/list",
@@ -36,7 +36,7 @@ function home() {
                     </div>
                     <div className="card-footer d-flex justify-content-between">
                         <div></div>
-                        <p>{post.author?.username ?? "User not found"}</p>
+                        <p>{post.authorId ?? "User not found"}</p>
                     </div>
                 </div>
             )}

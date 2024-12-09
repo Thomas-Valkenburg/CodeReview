@@ -34,18 +34,16 @@ function login() {
     }
 
     return (
-        <>
-            <form className="d-flex flex-column m-auto gap-3 mt-2 col-5" onSubmit={submit}>
-                {errorMessage == null ? "" : <div className="m-auto alert alert-danger">{errorMessage}</div>}
-                <label htmlFor="email" className="form-label">Email</label>
-                <input type="email" name="email" className="form-control" required></input>
-                <label htmlFor="password">Password</label>
-                <input type="password" name="password" className="form-control" required></input>
-                <div className="d-flex flex-column col-3 align-items-center w-100">
-                    <input type="submit" value="Log in" className="btn btn-outline-success"/>
-                </div>
-            </form >
-        </>
+        <form className="d-flex flex-column m-auto gap-3 mt-2 col-5" onSubmit={submit}>
+            {errorMessage == null ? "" : <div className="m-auto alert alert-danger">{errorMessage}</div>}
+            <label htmlFor="email" className="form-label">Email</label>
+            <input type="email" name="email" className="form-control" required></input>
+            <label htmlFor="password">Password</label>
+            <input type="password" name="password" className="form-control" required></input>
+            <div className="d-flex flex-column col-3 align-items-center w-100">
+                <input type="submit" value="Log in" className="btn btn-outline-success"/>
+            </div>
+        </form >
     );
 }
 
