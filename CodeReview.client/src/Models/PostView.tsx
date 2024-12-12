@@ -12,6 +12,7 @@ class PostView {
     authorId: number;
     title: string;
     content: string;
+    comments: number[];
     createdAt: Date;
     likes: number;
 }

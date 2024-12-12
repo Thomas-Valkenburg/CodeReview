@@ -6,7 +6,7 @@ namespace DAL.Services;
 
 public class CommentService(Context context) : ICommentService
 {
-    public Comment? GetById(int id) => context.Comments.Find(id);
+    public Comment? GetById(int id) => context.Comments.Include(comment => comment.Author).Include(comment => comment.Post).FirstOrDefault(comment => comment.Id == id);
 
     public List<Comment>? GetAll(int postId)
     {

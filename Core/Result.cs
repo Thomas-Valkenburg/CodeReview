@@ -2,8 +2,8 @@
 
 public class Result(bool success, string? message)
 {
-    public bool Success { get; init; }
-    public string Message { get; init; }
+    public bool Success { get; init; } = success;
+    public string? Message { get; init; } = message;
 
     public static Result FromSuccess(string? message = null) => new(true, message);
     public static Result<T> FromSuccess<T>(T obj, string? message = null) => new(obj, true, message);

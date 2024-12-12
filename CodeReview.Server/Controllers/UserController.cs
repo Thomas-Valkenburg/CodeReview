@@ -9,7 +9,7 @@ namespace CodeReview.Server.Controllers;
 [ApiController]
 public class UserController(UserHandler userHandler, AccountContext accountContext) : ControllerBase
 {
-    [HttpGet]
+    [HttpGet("{id:int}")]
     public Task<ActionResult<UserView>> GetUser(int id)
     {
         var result = userHandler.GetUser(id);

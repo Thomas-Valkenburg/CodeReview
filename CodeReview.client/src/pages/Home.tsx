@@ -29,7 +29,7 @@ function home() {
     return (
         <div className="d-flex flex-column gap-3">
             {posts.map(post =>
-                <div key={post.id} className="card overflow-hidden">
+                <a key={post.id} href={`/post/${post.id}`} className="card overflow-hidden">
                     <div className="card-body">
                         <h5 className="card-title">{post.title}</h5>
                         <p className="card-text">{post.content}</p>
@@ -38,7 +38,7 @@ function home() {
                         <div></div>
                         <p>{post.authorId ?? "User not found"}</p>
                     </div>
-                </div>
+                </a>
             )}
         </div>
     );

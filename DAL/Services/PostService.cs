@@ -1,5 +1,4 @@
-﻿using System.Buffers;
-using Core.Interfaces;
+﻿using Core.Interfaces;
 using Core.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,7 +6,7 @@ namespace DAL.Services;
 
 public class PostService(Context context) : IPostService
 {
-    public Post? GetById(int id) => context.Posts.Include(post => post.Author).FirstOrDefault(x => x.Id == id);
+    public Post? GetById(int id) => context.Posts.Include(post => post.Author).Include(post => post.Comments).FirstOrDefault(x => x.Id == id);
 
     public List<Post>? GetAllFromUser(int ownerId)
     {

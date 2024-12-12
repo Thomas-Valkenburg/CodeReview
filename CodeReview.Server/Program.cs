@@ -3,9 +3,7 @@ using DAL;
 using DAL_Account;
 using Core.Interfaces;
 using Core.Models;
-using DAL;
 using DAL.Services;
-using DAL_Account;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -82,6 +80,9 @@ public static class Program
         {
             var context = scope.ServiceProvider.GetRequiredService<Context>();
             var accountContext = scope.ServiceProvider.GetRequiredService<AccountContext>();
+
+            context.Database.EnsureCreated();
+            accountContext.Database.EnsureCreated();
 
             context.Database.Migrate();
             accountContext.Database.Migrate();

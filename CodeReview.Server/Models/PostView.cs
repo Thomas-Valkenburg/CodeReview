@@ -1,8 +1,6 @@
-﻿using Core.Models;
+﻿namespace CodeReview.Server.Models;
 
-namespace CodeReview.Server.Models;
-
-public class PostView(int id, int authorId, string title, string content, DateTime createdAt, int likes)
+public class PostView(int id, int authorId, string title, string content, IEnumerable<int> comments, DateTime createdAt, int likes)
 {
     public int Id { get; set; } = id;
 
@@ -11,6 +9,8 @@ public class PostView(int id, int authorId, string title, string content, DateTi
     public string Title { get; set; } = title;
 
     public string Content { get; set; } = content;
+
+    public IEnumerable<int> Comments { get; set; } = comments;
 
     public DateTime CreatedAt { get; set; } = createdAt;
 
