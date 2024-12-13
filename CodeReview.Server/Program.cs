@@ -1,6 +1,9 @@
-using DAL;
+using CodeReview.Core.Handlers;
+using CodeReview.Core.Interfaces;
+using CodeReview.Core.Models;
+using CodeReview.DAL;
+using CodeReview.DAL.Services;
 using DAL_Account;
-using Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 

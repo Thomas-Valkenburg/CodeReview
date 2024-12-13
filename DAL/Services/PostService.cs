@@ -1,12 +1,12 @@
-﻿using Core.Interfaces;
-using Core.Models;
+﻿using CodeReview.Core.Interfaces;
+using CodeReview.Core.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace DAL.Services;
+namespace CodeReview.DAL.Services;
 
 public class PostService(Context context) : IPostService
 {
-    public Post? GetById(int id) => context.Posts.Find(id);
+    public Post? GetById(int id) => context.Posts.Include(post => post.Author).Include(post => post.Comments).FirstOrDefault(x => x.Id == id);
 
     public List<Post>? GetAllFromUser(int ownerId)
     {
@@ -15,24 +15,27 @@ public class PostService(Context context) : IPostService
         return user?.Posts;
     }
 
-    public List<Post> Take(int amount, SortOrder sortOrder)
+    public List<Post> Take(int amount, SortOrder sortOrder, params List<string>? filter)
     {
-		return sortOrder switch
+		var posts = context.Posts.Include(post => post.Author).Include(post => post.Comments).ToList();
+
+		if (filter?.Count > 0)
 		{
-			SortOrder.Alphabetical         => context.Posts.OrderByDescending(post => post.Title).Take(amount).ToList(),
-			SortOrder.AlphabeticalInverted => context.Posts.OrderBy(post => post.Title).Take(amount).ToList(),
-			SortOrder.Newest               => context.Posts.OrderByDescending(post => post.CreatedAt).Take(amount).ToList(),
-			SortOrder.Oldest               => context.Posts.OrderBy(post => post.CreatedAt).Take(amount).ToList(),
-			SortOrder.TopRated             => context.Posts.OrderByDescending(post => post.Likes).Take(amount).ToList(),
+			posts = posts.Where(post => filter.Any(keyword => post.Title.Contains(keyword) || post.Content.Contains(keyword))).ToList();
+		}
+
+		posts = sortOrder switch
+		{
+			SortOrder.Alphabetical         => posts.OrderBy(post => post.Title).ToList(),
+			SortOrder.AlphabeticalInverted => posts.OrderByDescending(post => post.Title).ToList(),
+			SortOrder.Newest               => posts.OrderBy(post => post.CreatedAt).ToList(),
+			SortOrder.Oldest               => posts.OrderByDescending(post => post.CreatedAt).ToList(),
+			SortOrder.TopRated             => posts.OrderBy(post => post.Likes).ToList(),
 			_                              => throw new ArgumentOutOfRangeException(nameof(sortOrder), sortOrder, null)
 		};
-	}
 
-    public List<Post> Take(int amount, SortOrder sortOrder = SortOrder.Newest, params List<string> filterStrings) =>
-	    context.Posts.Where(post =>
-			    filterStrings.Any(filterString =>
-				    post.Title.Contains(filterString) || post.Content.Contains(filterString)))
-		    .ToList();
+		return posts.Take(amount).ToList();
+	}
 
 	public void Create(Post post) => context.Posts.Add(post);
 

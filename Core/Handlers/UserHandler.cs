@@ -1,23 +1,38 @@
-﻿using Core.Interfaces;
-using Core.Models;
+﻿using CodeReview.Core.Interfaces;
+using CodeReview.Core.Models;
 
-namespace Core.Handlers;
+namespace CodeReview.Core.Handlers;
 
 public class UserHandler(IUserService userService)
 {
-    private Result<User> CreateUser(string applicationUserId)
-    {
-        var user = new User(applicationUserId);
+	public Result CreateUser(User user)
+	{
+		if (user is null) return Result.FromException();
 
 		userService.Create(user);
 
-        return Result.FromSuccess(user);
-    }
+		return Result.FromSuccess();
+	}
 
-    public Result<User> GetUser(string applicationUserId)
-    {
-        var user = userService.GetByApplicationUserId(applicationUserId);
+	public Result<User> GetUser(int id)
+	{
+		var user = userService.GetById(id);
 
-		return user is null ? CreateUser(applicationUserId) : Result.FromSuccess(user);
-    }
+		if (user is not null) return Result.FromSuccess(user);
+
+		return Result.FromException<User>("User not found");
+	}
+
+	public Result<User> GetUser(string id)
+	{
+		var user = userService.GetByAccountUserId(id);
+
+		if (user is not null) return Result.FromSuccess(user);
+
+		var newUser = new User(id);
+
+		CreateUser(newUser);
+
+		return Result.FromSuccess(newUser);
+	}
 }

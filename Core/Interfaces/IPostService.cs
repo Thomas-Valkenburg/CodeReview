@@ -1,6 +1,6 @@
-﻿using Core.Models;
+﻿using CodeReview.Core.Models;
 
-namespace Core.Interfaces;
+namespace CodeReview.Core.Interfaces;
 
 public interface IPostService
 {
@@ -8,7 +8,7 @@ public interface IPostService
 
     List<Post>? GetAllFromUser(int ownerId);
 
-    List<Post> Take(int amount, SortOrder sortOrder, params List<string> filter);
+    List<Post> Take(int amount, SortOrder sortOrder, params List<string>? filter);
 
     void Create(Post post);
 

@@ -1,20 +1,20 @@
-﻿using Core.Models;
+﻿using CodeReview.Core.Models;
 
-namespace Core.Interfaces;
+namespace CodeReview.Core.Interfaces;
 
 public interface IUserService
 {
-    User? GetById(int id);
+	User? GetById(int id);
 
-    User? GetByApplicationUserId(string applicationUserId);
+	User? GetByAccountUserId(string accountUserId);
 
 	void Create(User user);
 
-    void Update(User user);
+	void Update(User user);
 
-    void Delete(int id);
+	void Delete(int id);
 
-    void Delete(User user);
+	void Delete(User user);
 
-    void SaveChanges();
+	void SaveChanges();
 }

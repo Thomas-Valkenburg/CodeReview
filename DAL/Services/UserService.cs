@@ -1,15 +1,15 @@
-﻿using Core.Interfaces;
-using Core.Models;
+﻿using CodeReview.Core.Interfaces;
+using CodeReview.Core.Models;
 
-namespace DAL.Services;
+namespace CodeReview.DAL.Services;
 
 public class UserService(Context context) : IUserService
 {
     public User? GetById(int id) => context.Users.Find(id);
 
-	public User? GetByApplicationUserId(string applicationUserId) => context.Users.FirstOrDefault(u => u.ApplicationUserId == applicationUserId);
+    public User? GetByAccountUserId(string accountUserId) => context.Users.FirstOrDefault(x => x.ApplicationUserId == accountUserId);
 
-	public void Create(User user) => context.Users.Add(user);
+    public void Create(User user) => context.Users.Add(user);
 
     public void Update(User user) => context.Users.Update(user);
 
