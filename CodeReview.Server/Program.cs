@@ -2,8 +2,8 @@ using CodeReview.Core.Handlers;
 using CodeReview.Core.Interfaces;
 using CodeReview.Core.Models;
 using CodeReview.DAL;
+using CodeReview.DAL.Account;
 using CodeReview.DAL.Services;
-using DAL_Account;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -81,9 +81,6 @@ public static class Program
         {
             var context = scope.ServiceProvider.GetRequiredService<Context>();
             var accountContext = scope.ServiceProvider.GetRequiredService<AccountContext>();
-
-            context.Database.EnsureCreated();
-            accountContext.Database.EnsureCreated();
 
             context.Database.Migrate();
             accountContext.Database.Migrate();

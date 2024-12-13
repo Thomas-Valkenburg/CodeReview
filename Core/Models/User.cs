@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CodeReview.Core.Models;
 
+[Table("Users")]
 public class User
 {
     public User() { }
