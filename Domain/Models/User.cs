@@ -7,11 +7,19 @@ public class User
 {
     public User() { }
 
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int Id { get; set; }
+    public User(string applicationUserId)
+	{
+		ApplicationUserId = applicationUserId;
+	}
 
-    public List<Post> Posts { get; set; } = [];
+	[Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int Id { get; init; }
+
+    public string ApplicationUserId { get; set; }
+
+	public List<Post> Posts { get; set; } = [];
 
     public List<Comment> Comments { get; set; } = [];
+
 }

@@ -74,7 +74,7 @@ namespace DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Username")
+                    b.Property<string>("ApplicationUserId")
                         .IsRequired()
                         .HasColumnType("TEXT");
 

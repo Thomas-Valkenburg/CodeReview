@@ -16,6 +16,13 @@ public class Program
         builder.Services.AddScoped<IDbContext, Context>();
         builder.Services.AddScoped<AccountContext>();
 
+        builder.Services.AddScoped<IUserService, UserService>();
+        builder.Services.AddScoped<IPostService, PostService>();
+        builder.Services.AddScoped<ICommentService, CommentService>();
+
+        builder.Services.AddTransient<UserHandler>();
+        builder.Services.AddTransient<PostHandler>();
+
         // Add DbContext(s)
         var connectionString = builder.Configuration.GetConnectionString("EFCoreSqlite") ??
                                throw new InvalidOperationException("Connection string 'EFCoreSqlite' not found.");

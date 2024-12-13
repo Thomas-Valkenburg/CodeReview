@@ -1,5 +1,5 @@
-﻿using Domain.Interfaces;
-using Domain.Models;
+﻿using Core.Handlers;
+using Core.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,25 +7,25 @@ namespace CodeReview.Server.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class PostController(IDbContext context) : ControllerBase
+public class PostController(PostHandler postService) : ControllerBase
 {
     [HttpGet]
     [Route("list")]
     public async Task<ActionResult<IEnumerable<Post>>> GetPostList()
     {
-        return await context.Set<Post>().Take(10).ToListAsync();
+        return Task.FromResult<ActionResult<IEnumerable<Post>>>(Ok(postService.GetPostList(25)));
     }
 
     [HttpGet]
     public async Task<ActionResult<Post>> GetPost(int id)
     {
-        var post = await context.Set<Post>().FindAsync(id);
+        var result = postService.GetPost(id);
 
-        if (post is null)
+        if (!result.Success)
         {
             return NotFound();
         }
 
-        return Ok(post);
+        return Task.FromResult<ActionResult<Post>>(Ok(result.Value));
     }
 }
