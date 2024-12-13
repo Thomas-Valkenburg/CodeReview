@@ -24,9 +24,9 @@ public class PostController(PostHandler postHandler) : ControllerBase
 
         if (!result.Success)
         {
-            return Task.FromResult<ActionResult<Post>>(NotFound());
+            return Task.FromResult<ActionResult<PostView>>(NotFound());
         }
 
-        return Task.FromResult<ActionResult<Post>>(Ok(result.Value));
+        return Task.FromResult<ActionResult<PostView>>(Ok(result.Value?.CreatePostView()));
     }
 }

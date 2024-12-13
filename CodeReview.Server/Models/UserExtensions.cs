@@ -1,5 +1,5 @@
 ﻿using CodeReview.Core.Models;
-using DAL_Account;
+using CodeReview.DAL.Account;
 
 namespace CodeReview.Server.Models;
 

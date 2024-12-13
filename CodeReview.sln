@@ -4,6 +4,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.11.35303.130
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeReview.Server", "CodeReview.Server\CodeReview.Server.csproj", "{43240E06-4131-4ECA-A88F-CB986BE21D9F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0B59CF0C-4C53-4C4E-8E25-E72D51693C49} = {0B59CF0C-4C53-4C4E-8E25-E72D51693C49}
+		{540FB730-3686-462F-BB7C-85623CD254AC} = {540FB730-3686-462F-BB7C-85623CD254AC}
+		{C617144D-0A0C-4A93-94A3-F6E0AEAAB719} = {C617144D-0A0C-4A93-94A3-F6E0AEAAB719}
+	EndProjectSection
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "CodeReview.client", "CodeReview.client\CodeReview.client.esproj", "{BE31EBDC-0F27-41FA-8006-C8514B736006}"
 EndProject
@@ -11,7 +16,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeReview.Core", "Core\Cod
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeReview.DAL", "DAL\CodeReview.DAL.csproj", "{0B59CF0C-4C53-4C4E-8E25-E72D51693C49}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeReview.DAL Account", "DAL Account\CodeReview.DAL Account.csproj", "{C617144D-0A0C-4A93-94A3-F6E0AEAAB719}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeReview.DAL.Account", "DAL Account\CodeReview.DAL.Account.csproj", "{C617144D-0A0C-4A93-94A3-F6E0AEAAB719}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeReview.Test", "CodeReview_Test\CodeReview.Test.csproj", "{65B325A7-2FC7-44BE-9AA3-C77B51CB5251}"
 EndProject

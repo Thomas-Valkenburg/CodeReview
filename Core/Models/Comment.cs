@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CodeReview.Core.Models;
 
+[Table("Comments")]
 public class Comment
 {
 	public Comment() { }
