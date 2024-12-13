@@ -1,6 +1,8 @@
 ﻿using CodeReview.Core.Interfaces;
 using CodeReview.Core.Models;
 using CodeReview.Server.Models;
+using Core.Interfaces;
+using Core.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CodeReview.Server.Controllers;

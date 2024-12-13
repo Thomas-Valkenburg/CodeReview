@@ -9,7 +9,7 @@ using Microsoft.OpenApi.Models;
 
 namespace CodeReview.Server;
 
-public class Program
+public static class Program
 {
     public static void Main(string[] args)
     {
@@ -34,10 +34,10 @@ public class Program
         var accountConnectionString = builder.Configuration.GetConnectionString("EFCoreAccountSqlite") ??
                                       throw new InvalidOperationException(
                                           "Connection string 'EFCoreAccountSqlite' not found.");
-
         builder.Services.AddDbContext<AccountContext>(options => { options.UseSqlite(accountConnectionString); });
 
         builder.Services.AddControllers();
+
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen(options =>
@@ -81,6 +81,9 @@ public class Program
         {
             var context = scope.ServiceProvider.GetRequiredService<Context>();
             var accountContext = scope.ServiceProvider.GetRequiredService<AccountContext>();
+
+            context.Database.EnsureCreated();
+            accountContext.Database.EnsureCreated();
 
             context.Database.Migrate();
             accountContext.Database.Migrate();

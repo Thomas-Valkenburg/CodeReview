@@ -1,7 +1,8 @@
 ﻿using CodeReview.Core.Handlers;
 using CodeReview.Core.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
+using CodeReview.Server.Models;
 
 namespace CodeReview.Server.Controllers;
 
@@ -17,7 +18,7 @@ public class PostController(PostHandler postHandler) : ControllerBase
     }
 
     [HttpGet]
-    public Task<ActionResult<Post>> GetPost(int id)
+    public Task<ActionResult<PostView>> GetPost(int id)
     {
         var result = postHandler.GetPost(id);
 
