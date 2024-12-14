@@ -11,8 +11,8 @@ on:
     branches: [ "main", "dev" ]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  Build:
+    runs-on: [self-hosted]
 
     steps:
       - name: Checkout code
@@ -21,7 +21,9 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 8.0.x
+          dotnet-version: 9.0.x
+        env:
+          DOTNET_INSTALL_DIR: "./.dotnet"
 
       - name: Restore dependencies
         run: dotnet restore
@@ -30,9 +32,9 @@ jobs:
         run: dotnet build --no-restore
 
   Test:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted]
 
-    needs: build
+    needs: Build
 
     steps:
         - name: Checkout code
@@ -41,7 +43,9 @@ jobs:
         - name: Setup .NET
           uses: actions/setup-dotnet@v4
           with:
-            dotnet-version: 8.0.x
+            dotnet-version: 9.0.x
+          env:
+            DOTNET_INSTALL_DIR: "./.dotnet"
 
         - name: Restore dependencies
           run: dotnet restore
