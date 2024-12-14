@@ -1,14 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="Core.Models.Comment">
-    <Position X="3.25" Y="0.75" Width="1.5" />
-    <AssociationLine Name="Author" Type="Core.Models.User" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="4.252" Y="2.497" />
-        <Point X="4.252" Y="4.062" />
-        <Point X="4.75" Y="4.062" />
-      </Path>
-    </AssociationLine>
+  <Class Name="CodeReview.Core.Models.Comment">
+    <Position X="1.75" Y="4" Width="2" />
     <TypeIdentifier>
       <HashCode>AAACAAAAAgAAAAAAgAAAAAAACAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Comment.cs</FileName>
@@ -18,10 +11,10 @@
       <Property Name="Post" />
     </ShowAsAssociation>
   </Class>
-  <Class Name="Core.Models.Post">
-    <Position X="1.75" Y="3.75" Width="1.5" />
+  <Class Name="CodeReview.Core.Models.Post">
+    <Position X="3.5" Y="0.75" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAACAAAAAgAAAEAAgAAAAAAAAAAAAAAAAAAAAAAAIAA=</HashCode>
+      <HashCode>AAACAAAAAgAAAEAAgCAAAAAAAAAAAAACAAAAAAAAIAA=</HashCode>
       <FileName>Models\Post.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -31,50 +24,79 @@
       <Property Name="Comments" />
     </ShowAsCollectionAssociation>
   </Class>
-  <Class Name="Core.Models.User">
-    <Position X="4.75" Y="3.75" Width="1.5" />
-    <AssociationLine Name="Posts" Type="Core.Models.Post" FixedFromPoint="true">
+  <Class Name="CodeReview.Core.Models.User">
+    <Position X="5" Y="4" Width="1.75" />
+    <AssociationLine Name="Posts" Type="CodeReview.Core.Models.Post" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="4.75" Y="4.625" />
-        <Point X="3.25" Y="4.625" />
+        <Point X="6.547" Y="4" />
+        <Point X="6.547" Y="1.562" />
+        <Point X="5.25" Y="1.562" />
       </Path>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAACAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAIAA=</HashCode>
+      <HashCode>AAACAAAAAAAAAACABAAAAAAAAAAAAAAAAAAAAAAAIAA=</HashCode>
       <FileName>Models\User.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
-      <Property Name="Comments" />
       <Property Name="Posts" />
+      <Property Name="Comments" />
     </ShowAsCollectionAssociation>
   </Class>
-  <Interface Name="Core.Interfaces.ICommentService" Collapsed="true">
-    <Position X="7.25" Y="0.75" Width="1.5" />
+  <Class Name="CodeReview.Core.Models.AccountUser" Collapsed="true">
+    <Position X="7.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\AccountUser.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CodeReview.Core.Handlers.PostHandler" Collapsed="true">
+    <Position X="9.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>Handlers\PostHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CodeReview.Core.Handlers.UserHandler" Collapsed="true">
+    <Position X="7.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAA=</HashCode>
+      <FileName>Handlers\UserHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="CodeReview.Core.Interfaces.ICommentService" Collapsed="true">
+    <Position X="7.75" Y="3" Width="1.5" />
     <TypeIdentifier>
       <HashCode>gAQAAAAAAAAAAAAAAAAAAAAAAAEAAEAAAgAAAAAAAIA=</HashCode>
       <FileName>Interfaces\ICommentService.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="Core.Interfaces.IDbContext" Collapsed="true">
-    <Position X="9" Y="0.75" Width="1.5" />
+  <Interface Name="CodeReview.Core.Interfaces.IDbContext" Collapsed="true">
+    <Position X="9.5" Y="3" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAABEAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Interfaces\IDbContext.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="Core.Interfaces.IPostService" Collapsed="true">
-    <Position X="7.25" Y="1.5" Width="1.5" />
+  <Interface Name="CodeReview.Core.Interfaces.IPostService" Collapsed="true">
+    <Position X="7.75" Y="3.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>gAQAAAAAQAAAAAAAAAAAAAAAAAEAAEAAAAEAAAAAAIA=</HashCode>
       <FileName>Interfaces\IPostService.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="Core.Interfaces.IUserService" Collapsed="true">
-    <Position X="9" Y="1.5" Width="1.5" />
+  <Interface Name="CodeReview.Core.Interfaces.IUserService" Collapsed="true">
+    <Position X="9.5" Y="3.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>gAQAAAAAAAAAAAAAAAAAAAAAAAEAAEAAAAAAAAAAAIA=</HashCode>
+      <HashCode>gASAAAAAAAAAAAAAAAAAAAAAAAEAAEAAAAAAAAAAAIA=</HashCode>
       <FileName>Interfaces\IUserService.cs</FileName>
     </TypeIdentifier>
   </Interface>
+  <Enum Name="CodeReview.Core.Models.SortOrder" Collapsed="true">
+    <Position X="7.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAAAAAAAAEAAAAAAAAAAAACAACACAAAA=</HashCode>
+      <FileName>Models\SortOrder.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>
