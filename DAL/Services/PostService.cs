@@ -1,4 +1,5 @@
-﻿using CodeReview.Core.Interfaces;
+﻿using CodeReview.Core;
+using CodeReview.Core.Interfaces;
 using CodeReview.Core.Models;
 using Microsoft.EntityFrameworkCore;
 

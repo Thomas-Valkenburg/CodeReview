@@ -1,4 +1,4 @@
-﻿namespace CodeReview.Core.Models;
+﻿namespace CodeReview.Core;
 
 public enum SortOrder
 {
