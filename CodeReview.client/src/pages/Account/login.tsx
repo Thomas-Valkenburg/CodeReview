@@ -3,7 +3,7 @@ import { useState } from "react";
 function login() {
     const [errorMessage, setErrorMessage] = useState<String>();
 
-    const submit = async (e) => {
+    const submit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         const formData = new FormData(e.target);

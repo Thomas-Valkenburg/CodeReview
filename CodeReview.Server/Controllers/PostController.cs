@@ -1,7 +1,6 @@
 ﻿using CodeReview.Core.Handlers;
 using CodeReview.Core.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 using CodeReview.Server.Models;
 
 namespace CodeReview.Server.Controllers;

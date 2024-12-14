@@ -70,8 +70,9 @@ public static class Program
 
         builder.Services.AddIdentityApiEndpoints<AccountUser>(options =>
         {
-            options.SignIn.RequireConfirmedEmail = false;
+            options.SignIn.RequireConfirmedEmail    = false;
             options.Password.RequireNonAlphanumeric = false;
+            options.User.RequireUniqueEmail         = true;
         }).AddEntityFrameworkStores<AccountContext>();
 
         var app = builder.Build();
