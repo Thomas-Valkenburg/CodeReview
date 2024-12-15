@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom"
 import PostView from "../../Models/PostView"
 import User from "../../Models/User"
 import Comment from "../../Models/CommentView"
-import CopyToClipboard from "../../components/CopyToClipboard"
+import CopyToClipboard from "../../scripts/CopyToClipboard"
 
 function id() {
     const { postId = 0 } = useParams();

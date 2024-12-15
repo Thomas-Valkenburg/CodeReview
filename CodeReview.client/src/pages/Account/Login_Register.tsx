@@ -1,27 +1,35 @@
 import { useState } from "react"
-import { useParams } from "react-router-dom"
-import Login from "./Login"
-import Register from "./Register"
+import Login from "../../components/account/Login.tsx"
+import Register from "../../components/account/Register"
 
 function Login_Register() {
     const [login, setLogin] = useState(window.location.pathname === "/account/login");
-
-    console.log(window.location.pathname);
 
     function SelectLogin(event: React.FormEventHandler<HTMLDivElement>) {
         setLogin(event.target.defaultValue === "true");
     }
 
+    const welcomeMessage = login ? "Good to see you again." : "Pleased to meet you.";
+
     return (
-        <div className="d-flex flex-column align-items-stretch gap-3 mt-3 m-auto" style={{ maxWidth: "750px" }}>
-            <div className="d-flex gap-2 bg-light rounded-5 p-2 m-auto" onChange={SelectLogin}>
+        <div className="d-flex flex-column align-items-stretch bg-light rounded-5 mt-3 mt-md-5 p-4 m-auto" style={{ maxWidth: "750px" }}>
+            <div className="d-flex gap-1 bg-light rounded-5 m-auto" onChange={SelectLogin}>
                 <input type="radio" className="btn-check" name="option" value="true" id="login" defaultChecked={login}></input>
-                <label className="btn btn-outline-primary rounded-5" htmlFor="login">Login</label>
+                <label className="btn-bottom btn-outline-primary border-primary border-4 rounded-0 pb-3 px-3 mb-0" htmlFor="login">Login</label>
                 <input type="radio" className="btn-check" name="option" value="false" id="register" defaultChecked={!login}></input>
-                <label className="btn btn-outline-primary rounded-5" htmlFor="register">Register</label>
+                <label className="btn-bottom btn-outline-primary border-primary border-4 rounded-0 pb-3 px-3 mb-0" htmlFor="register">Register</label>
             </div>
-            <div className="bg-light rounded-5 px-4 px-md-5 py-5">
-                { login ? <Login/> : <Register/>}
+            <hr className="mt-0"></hr>
+            <div className="d-flex flex-row justify-content-center bg-light rounded-5 p-2">
+                <div className="flex-grow-1">
+                    {login ? <Login /> : <Register />}
+                </div>
+                <div className="d-none d-sm-flex flex-column align-items-center col-6 px-4 text-center">
+                    <h1 className={"bi" + (login ? " bi-patch-check" : " bi-door-open")}></h1>
+                    <h1 style={{ maxWidth: "200px" }}>
+                        {welcomeMessage}
+                    </h1>
+                </div>
             </div>
         </div>
     );
