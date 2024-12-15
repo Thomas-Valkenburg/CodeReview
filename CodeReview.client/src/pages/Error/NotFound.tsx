@@ -1,7 +1,7 @@
 function notFound() {
     return (
-        <div className="d-flex justify-content-center">
-            <h2 className="m-auto text-center">Page not found!</h2>
+        <div className="d-flex justify-content-center pt-2">
+            <h3 className="m-auto text-center">Page not found!</h3>
         </div>
     );
 }

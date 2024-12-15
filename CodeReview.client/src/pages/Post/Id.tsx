@@ -6,7 +6,7 @@ import Comment from "../../Models/CommentView"
 import CopyToClipboard from "../../components/CopyToClipboard"
 
 function id() {
-    const { postId = 0 } = useParams() as { postId: Number };
+    const { postId = 0 } = useParams();
 
     const [post, setPost] = useState<PostView>();
     const [user, setUser] = useState<User>();

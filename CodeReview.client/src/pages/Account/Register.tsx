@@ -6,8 +6,8 @@ function register() {
     const submit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        const formData = new FormData(e.target);
-        const data = {};
+        const formData = new FormData(e.currentTarget);
+        const data: object = {};
         formData.forEach((value, key) => data[key] = value);
 
         await fetch("/register", {
@@ -32,17 +32,21 @@ function register() {
     }
 
     return (
-        <form className="d-flex flex-column m-auto gap-3 mt-2 col-5" onSubmit={submit}>
+        <form className="d-flex flex-column m-auto gap-3" onSubmit={submit}>
             {errorMessage == null ? "" : <div className="m-auto alert alert-danger">{errorMessage}</div>}
-            <label htmlFor="username" className="form-label">Username</label>
-            <input type="text" className="form-control"></input>
-            <label htmlFor="email" className="form-label">Email</label>
-            <input type="email" name="email" className="form-control" required></input>
-            <label htmlFor="password">Password</label>
-            <input type="password" name="password" className="form-control" required></input>
-            <div className="d-flex flex-column col-3 align-items-center w-100">
-                <input type="submit" value="Register" className="btn btn-outline-success"/>
+            <div>
+                <label htmlFor="username" className="form-label">Username</label>
+                <input type="text" className="form-control"></input>
             </div>
+            <div>
+                <label htmlFor="email" className="form-label">Email</label>
+                <input type="email" name="email" className="form-control" required></input>
+            </div>
+            <div>
+                <label htmlFor="password" className="form-label">Password</label>
+                <input type="password" name="password" className="form-control" required></input>
+            </div>
+            <input type="submit" value="Register" className="btn btn-primary rounded-5" />
         </form >
     );
 }

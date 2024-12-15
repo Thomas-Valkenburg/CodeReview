@@ -2,7 +2,7 @@
 // ReSharper disable UnusedLocalImport
 
 import { fileURLToPath, URL } from "node:url";
-import { defineConfig } from "vite";
+import { defineConfig, searchForWorkspaceRoot } from "vite";
 import plugin from "@vitejs/plugin-react";
 import fs from "fs";
 import path from "path";
@@ -50,75 +50,19 @@ export default defineConfig({
         proxy: {
             '/manage/info': {
                 target,
-                secure: false,
-                configure: (proxy, _options) => {
-                    proxy.on('error',
-                        (err, _req, _res) => {
-                            console.log('proxy error', err);
-                        });
-                    proxy.on('proxyReq',
-                        (proxyReq, req, _res) => {
-                            console.log('Sending Request to the Target:', req.method, req.url);
-                        });
-                    proxy.on('proxyRes',
-                        (proxyRes, req, _res) => {
-                            console.log('Received Response from the Target:', proxyRes.statusCode, req.url);
-                        });
-                }
+                secure: false
             },
             '/register': {
                 target,
-                secure: false,
-                configure: (proxy, _options) => {
-                    proxy.on('error',
-                        (err, _req, _res) => {
-                            console.log('proxy error', err);
-                        });
-                    proxy.on('proxyReq',
-                        (proxyReq, req, _res) => {
-                            console.log('Sending Request to the Target:', req.method, req.url);
-                        });
-                    proxy.on('proxyRes',
-                        (proxyRes, req, _res) => {
-                            console.log('Received Response from the Target:', proxyRes.statusCode, req.url);
-                        });
-                }
+                secure: false
             },
             '/login': {
                 target,
-                secure: false,
-                configure: (proxy, _options) => {
-                    proxy.on('error',
-                        (err, _req, _res) => {
-                            console.log('proxy error', err);
-                        });
-                    proxy.on('proxyReq',
-                        (proxyReq, req, _res) => {
-                            console.log('Sending Request to the Target:', req.method, req.url);
-                        });
-                    proxy.on('proxyRes',
-                        (proxyRes, req, _res) => {
-                            console.log('Received Response from the Target:', proxyRes.statusCode, req.url);
-                        });
-                }
+                secure: false
             },
             '/api': {
                 target,
-                secure: false,
-                configure: (proxy, _options) => {
-                    proxy.on('error',
-                        (err, _req, _res) => {
-                            console.log('proxy error', err);
-                        });
-                    proxy.on('proxyReq',
-                        (proxyReq, req, _res) => {
-                            console.log('Sending Request to the Target:', req.method, req.url);
-                        });
-                    proxy.on('proxyRes',
-                        (proxyRes, req, _res) => {
-                            console.log('Received Response from the Target:', proxyRes.statusCode, req.url);
-                        });
-                }
+                secure: false
             }
         },
         port: 5173,
@@ -128,6 +72,8 @@ export default defineConfig({
         }
     }
 })
+
+console.log(searchForWorkspaceRoot(process.cwd()))
 
 // ReSharper restore TsResolvedFromInaccessibleModule
 // ReSharper restore UnusedLocalImport
