@@ -7,7 +7,7 @@ function create() {
         e.preventDefault();
 
         const formData = new FormData(e.currentTarget);
-        const data: object = {};
+        const data: any = {};
         formData.forEach((value, key) => data[key] = value);
 
         await fetch("api/post/create", {
@@ -41,7 +41,7 @@ function create() {
             <label htmlFor="title" className="form-label">Title</label>
             <input type="text" name="title" className="form-control" required></input>
             <label htmlFor="content">Description</label>
-            <textarea name="content" className="form-control" rows="20" required></textarea>
+            <textarea name="content" className="form-control" rows={20} required></textarea>
             <div className="d-flex flex-column col-3 align-items-center w-100">
                 <input type="submit" value="Create" className="btn btn-outline-success px-4" />
             </div>

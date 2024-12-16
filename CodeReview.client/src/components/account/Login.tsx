@@ -7,7 +7,7 @@ function login() {
         e.preventDefault();
 
         const formData = new FormData(e.currentTarget);
-        const data: object = {};
+        const data: any = {};
         formData.forEach((value, key) => data[key] = value);
 
         await fetch("/login?useCookies=true&useSessionCookies=true", {

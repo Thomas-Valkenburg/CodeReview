@@ -32,12 +32,12 @@ const navbar = () => {
         }
     }
 
-    function syncSearchInput(e: React.ChangeEventHandler<HTMLInputElement>) {
+    function syncSearchInput(event: React.ChangeEvent<HTMLInputElement>) {
         const searchBar = document.getElementById("search-bar") as HTMLInputElement;
         const mobileSearchBar = document.getElementById("mobile-search-bar") as HTMLInputElement;
 
-        searchBar.value = e.target.value;
-        mobileSearchBar.value = e.target.value;
+        searchBar.value = (event.target as HTMLInputElement).value;
+        mobileSearchBar.value = (event.target as HTMLInputElement).value;
     }
 
     useEffect(() => {

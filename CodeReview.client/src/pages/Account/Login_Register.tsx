@@ -2,18 +2,18 @@ import { useState } from "react"
 import Login from "../../components/account/Login.tsx"
 import Register from "../../components/account/Register"
 
-function Login_Register() {
+function loginRegister() {
     const [login, setLogin] = useState(window.location.pathname === "/account/login");
 
-    function SelectLogin(event: React.FormEventHandler<HTMLDivElement>) {
-        setLogin(event.target.defaultValue === "true");
+    function selectLogin(event: React.FormEvent<HTMLDivElement>) {
+        setLogin((event.target as HTMLInputElement).defaultValue === "true");
     }
 
     const welcomeMessage = login ? "Good to see you again." : "Pleased to meet you.";
 
     return (
         <div className="d-flex flex-column align-items-stretch bg-light rounded-5 mt-3 mt-md-5 p-4 m-auto" style={{ maxWidth: "750px" }}>
-            <div className="d-flex gap-1 bg-light rounded-5 m-auto" onChange={SelectLogin}>
+            <div className="d-flex gap-1 bg-light rounded-5 m-auto" onChange={selectLogin}>
                 <input type="radio" className="btn-check" name="option" value="true" id="login" defaultChecked={login}></input>
                 <label className="btn-bottom btn-outline-primary border-primary border-4 rounded-0 pb-3 px-3 mb-0" htmlFor="login">Login</label>
                 <input type="radio" className="btn-check" name="option" value="false" id="register" defaultChecked={!login}></input>
@@ -35,4 +35,4 @@ function Login_Register() {
     );
 }
 
-export default Login_Register;
+export default loginRegister;
