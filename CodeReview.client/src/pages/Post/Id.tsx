@@ -3,17 +3,18 @@ import { useParams } from "react-router-dom"
 import PostView from "../../Models/PostView"
 import User from "../../Models/User"
 import Comment from "../../Models/CommentView"
+import CommentEditor from "../../components/CommentEditor"
 import CopyToClipboard from "../../scripts/CopyToClipboard"
 
 function id() {
-    const { postId = 0 } = useParams();
+    const params = useParams();
 
     const [post, setPost] = useState<PostView>();
     const [user, setUser] = useState<User>();
     const [comments, setComments] = useState<Comment[]>();
 
     async function populatePost() {
-        await fetch(`/api/Post?id=${postId}`, {
+        await fetch(`/api/Post/${params["id"]}`, {
             credentials: "include"
         }).then(async (response) => {
             // ReSharper disable once TsResolvedFromInaccessibleModule
@@ -62,28 +63,43 @@ function id() {
         populatePost();
     }, []);
 
-    if (post === undefined || post === null || user === undefined || user === null || comments === undefined || comments === null) {
-        return <p>Loading...</p>;
+    if (post === undefined || post === null || user === undefined || user === null) {
+        return <p className="p-3 m-auto text-center">Loading...</p>;
     }
 
     return (
-        <div className="d-flex flex-column px-md-5 py-md-2 bg-light">
-            <h2>{post.title}</h2>
-            <p>{post.content}</p>
-            <hr></hr>
-            <div className="d-flex flex-row justify-content-between">
-                <div>
-                    <button id="share" className="btn btn-light" onClick={() => CopyToClipboard(window.location.href)}>Share</button>
+        <div className="d-flex flex-column gap-4">
+            <div className="rounded-4 px-3 py-2 px-md-4 py-md-3 mt-3 mt-md-4">
+                <h2>{post.title}</h2>
+                <p>{post.content}</p>
+                <hr></hr>
+                <div className="d-flex flex-row justify-content-between">
+                    <div>
+                        <button id="share" className="btn btn-light" onClick={() => CopyToClipboard(window.location.href)}>Share</button>
+                    </div>
+                    <a className="btn btn-light" href={`/user/${post.authorId}`}>{user.username}</a>
                 </div>
-                <a className="btn" href={`/user/${post.authorId}`}>{user.username}</a>
             </div>
             <div>
-                {comments.map(comment =>
-                    <div className="card">
-                        <div className="card-body">{comment.content}</div>
-                        <a href={`/user/${comment.authorId}`} className="card-footer">User's profile</a>
+                {comments === undefined || comments === null ? 
+                    <h4 className="px-3 py-2 px-md-4 py-md-3 mt-3 mt-md-4">No answers yet.</h4>
+                    :
+                    <div>
+                        <h4 className="px-3 py-2 px-md-4 py-md-3 mt-3 mt-md-4">{comments.length} Answers:</h4>
+                        {
+                            comments.map(comment =>
+                                <div className="px-3 py-2 px-md-4 py-md-3 mt-3 mt-md-4">
+                                    <CommentEditor content={comment.content} readOnly={true}></CommentEditor>
+                                    <hr></hr>
+                                </div>
+                            )
+                        }
                     </div>
-                )}
+                }
+            </div>
+            <div className="rounded-4 px-3 py-2 px-md-4 py-md-3 mt-3 mt-md-4">
+                <h4>Your answer:</h4>
+                <CommentEditor></CommentEditor>
             </div>
         </div>
     );

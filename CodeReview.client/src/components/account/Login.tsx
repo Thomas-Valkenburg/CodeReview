@@ -42,7 +42,7 @@ function login() {
             </div>
             <div>
                 <label htmlFor="password" className="form-label">Password</label>
-                <input type="text" name="password" className="form-control" required></input>
+                <input type="password" name="password" className="form-control" required></input>
             </div>
             <input type="submit" value="Log in" className="btn btn-primary rounded-5" />
         </form >

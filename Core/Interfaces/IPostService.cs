@@ -4,7 +4,7 @@ namespace CodeReview.Core.Interfaces;
 
 public interface IPostService
 {
-    Post? GetById(int id);
+    Post? Get(int id);
 
     List<Post>? GetAllFromUser(int ownerId);
 

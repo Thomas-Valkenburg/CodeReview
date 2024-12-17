@@ -50,16 +50,16 @@ const navbar = () => {
         ?
         <div className="d-flex gap-2">
             <a href="/account/login" className="btn btn-primary px-2">Login</a>
-            <a href="/account/register" className="d-none d-md-block btn btn-light px-2">Register</a>
+            <a href="/account/register" className="d-none d-md-block btn btn-primary px-2">Register</a>
         </div>
         :
         <div>
-            <a href="/account/info" className="d-none d-lg-block btn btn-secondary px-2">{email}</a>
+            <a href="/account/info" className="d-none d-lg-block btn btn-light px-2">{email}</a>
             <a href="/account/info" className="d-lg-none btn btn-primary bi bi-person"></a>
         </div>;
 
     return (
-        <header>
+        <header className="sticky-top bg-body">
             <nav className="navbar border-bottom border-2">
                 <div className="container-fluid flex-nowrap">
                     <a className={"navbar-brand" + (search ? " d-none" : "")} href="/#">

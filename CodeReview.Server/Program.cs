@@ -1,9 +1,9 @@
 using CodeReview.Core.Handlers;
 using CodeReview.Core.Interfaces;
-using CodeReview.Core.Models;
 using CodeReview.DAL;
 using CodeReview.DAL.Account;
 using CodeReview.DAL.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -25,6 +25,7 @@ public static class Program
 
         builder.Services.AddTransient<UserHandler>();
         builder.Services.AddTransient<PostHandler>();
+        builder.Services.AddTransient<CommentHandler>();
 
         // Add DbContext(s)
         var connectionString = builder.Configuration.GetConnectionString("EFCoreSqlite") ??
@@ -68,7 +69,7 @@ public static class Program
 
         builder.Services.AddAuthorization();
 
-        builder.Services.AddIdentityApiEndpoints<AccountUser>(options =>
+        builder.Services.AddIdentityApiEndpoints<IdentityUser>(options =>
         {
             options.SignIn.RequireConfirmedEmail    = false;
             options.Password.RequireNonAlphanumeric = false;
@@ -100,7 +101,7 @@ public static class Program
 
         app.UseAuthorization();
 
-        app.MapIdentityApi<AccountUser>();
+        app.MapIdentityApi<IdentityUser>();
 
         app.MapControllers();
 

@@ -11,6 +11,8 @@ public class UserHandler(IUserService userService)
 
 		userService.Create(user);
 
+		userService.SaveChanges();
+
 		return Result.FromSuccess();
 	}
 
@@ -28,6 +30,20 @@ public class UserHandler(IUserService userService)
 		var user = userService.GetByAccountUserId(id);
 
 		if (user is not null) return Result.FromSuccess(user);
+
+		return Result.FromException<User>("User not found");
+	}
+
+	/// <summary>
+	/// Only to be used when it is certain a user has an identity account
+	/// </summary>
+	/// <param name="id">The id of the identity account</param>
+	/// <returns>A new user object</returns>
+	public Result<User> GetOrCreateUser(string id)
+	{
+		var result = GetUser(id);
+
+		if (result is {Success: true, Value: not null}) return result;
 
 		var newUser = new User(id);
 

@@ -16,7 +16,7 @@ const app = () => (
                     <Route path="/" element={<Home />} />
                     <Route path="/account/login" element={<Login_Register />} />
                     <Route path="/account/register" element={<Login_Register />} />
-                    <Route path="/post/:postId" element={<PostId />} />
+                    <Route path="/post/:id" element={<PostId />} />
                     <Route path="/post/create" element={<CreatePost />} />
                     <Route path="*" element={<NotFound />} />
                 </Routes>
