@@ -1,5 +1,7 @@
-﻿using CodeReview.Core.Interfaces;
+﻿using System.Text.Json;
+using CodeReview.Core.Interfaces;
 using CodeReview.Core.Models;
+using CodeReview.Core.Models.EditorContent;
 
 namespace CodeReview.Core.Handlers;
 
@@ -20,13 +22,15 @@ public class CommentHandler(UserHandler userHandler, PostHandler postHandler, IC
 		return Result.FromSuccess(comments);
 	}
 
-	public Result Create(string identityUserId, int postId, string content)
+	public Result Create(string identityUserId, int postId, EditorContent editorContent)
 	{
 		var userResult = userHandler.GetOrCreateUser(identityUserId);
-		var postResult   = postHandler.GetPost(postId);
+		var postResult = postHandler.GetPost(postId);
 
 		if (!userResult.Success || userResult.Value is not { } user) return Result.FromException("User not found");
 		if (!postResult.Success || postResult.Value is not { } post) return Result.FromException("Post not found");
+
+		var content = EditorContentHandler.Process(editorContent);
 
 		var newComment = new Comment(user, post, content);
 

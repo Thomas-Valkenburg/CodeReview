@@ -1,8 +1,8 @@
-import { useState } from "react"
-import { useParams } from "react-router-dom"
-import { Editor, EditorState, RichUtils } from "draft-js"
-import "draft-js/dist/Draft.css"
-import { convertToRaw, convertFromRaw, RawDraftContentState } from "draft-js";
+import { convertFromRaw, convertToRaw, Editor, EditorState, RawDraftContentState, RichUtils } from "draft-js";
+import "draft-js/dist/Draft.css";
+import { useState } from "react";
+import { useParams } from "react-router-dom";
+import "../../css/CommentEditor.css";
 
 function CommentEditor(props: any) {
     const params = useParams();
@@ -14,9 +14,10 @@ function CommentEditor(props: any) {
     async function postComment() {
         const content = convertToRaw(editorState.getCurrentContent());
 
-        await fetch(`/api/comment?postId=${params["id"]}&content=${JSON.stringify(content)}`, {
+        await fetch(`/api/comment?postId=${params["id"]}`, {
             credentials: "include",
             method: "POST",
+            body: JSON.stringify(content)
         });
     }
 
@@ -39,12 +40,22 @@ function CommentEditor(props: any) {
 
     function toggleInline(e: React.MouseEvent<HTMLButtonElement>) {
         e.preventDefault();
-        setEditorState(RichUtils.toggleInlineStyle(editorState, e.target.value));
+        setEditorState(RichUtils.toggleInlineStyle(editorState, e.target.title));
     }
 
     function toggleBlock(e: React.MouseEvent<HTMLButtonElement>) {
         e.preventDefault();
-        setEditorState(RichUtils.toggleBlockType(editorState, e.target.value));
+        setEditorState(RichUtils.toggleBlockType(editorState, e.target.title));
+    }
+
+    function undo(e: React.MouseEvent<HTMLButtonElement>) {
+        e.preventDefault();
+        setEditorState(EditorState.undo(editorState));
+    }
+
+    function redo(e: React.MouseEvent<HTMLButtonElement>) {
+        e.preventDefault();
+        setEditorState(EditorState.redo(editorState));
     }
 
     return (props.readOnly ?
@@ -66,21 +77,25 @@ function CommentEditor(props: any) {
             <div className="border border-1 rounded-2">
                 <div className="d-flex flex-row gap-0 gap-sm-1 gap-md-3">
                     <div className="d-flex flex-row">
-                        <button className="btn btn-light bi bi-type-bold p-2" value="BOLD" onMouseDown={toggleInline}></button>
-                        <button className="btn btn-light bi bi-type-italic p-2" value="ITALIC" onMouseDown={toggleInline}></button>
-                        <button className="btn btn-light bi bi-type-underline p-2" value="UNDERLINE" onMouseDown={toggleInline}></button>
+                        <span className="btn btn-light bi bi-type-bold p-2" title="BOLD" onMouseDown={toggleInline}></span>
+                        <span className="btn btn-light bi bi-type-italic p-2" title="ITALIC" onMouseDown={toggleInline}></span>
+                        <span className="btn btn-light bi bi-type-underline p-2" title="UNDERLINE" onMouseDown={toggleInline}></span>
                     </div>
                     <div className="d-flex flex-row">
-                        <button className="btn btn-light bi bi-braces p-2" value="code-block" onMouseDown={toggleBlock}></button>
-                        <button className="btn btn-light bi bi-quote p-2" value="blockquote" onMouseDown={toggleBlock}></button>
+                        <span className="btn btn-light bi bi-braces p-2" title="code-block" onMouseDown={toggleBlock}></span>
+                        <span className="btn btn-light bi bi-quote p-2" title="blockquote" onMouseDown={toggleBlock}></span>
                     </div>
                     <div className="d-flex flex-row">
-                        <button className="btn btn-light bi bi-list-ol p-2" value="ordered-list-item" onMouseDown={toggleBlock}></button>
-                        <button className="btn btn-light bi bi-list-ul p-2" value="unordered-list-item" onMouseDown={toggleBlock}></button>
+                        <span className="btn btn-light bi bi-list-ol p-2" title="ordered-list-item" onMouseDown={toggleBlock} />
+                        <span className="btn btn-light bi bi-list-ul p-2" title="unordered-list-item" onMouseDown={toggleBlock} />
+                    </div>
+                    <div>
+                        <span className="btn btn-light bi bi-arrow-counterclockwise" onMouseDown={undo} />
+                        <span className="btn btn-light bi bi-arrow-clockwise" onMouseDown={redo}/>
                     </div>
                 </div>
                 <hr className="m-0"></hr>
-                <div className="p-2 overflow-hidden" style={{resize: "vertical"}}>
+                <div className="p-2 overflow-hidden">
                     <Editor
                         editorState={editorState}
                         handleKeyCommand={handleKeyCommand}

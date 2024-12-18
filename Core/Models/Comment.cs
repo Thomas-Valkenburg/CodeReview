@@ -6,12 +6,14 @@ namespace CodeReview.Core.Models;
 [Table("Comments")]
 public class Comment
 {
-	public Comment() { }
+	public Comment()
+	{
+	}
 
 	public Comment(User author, Post post, string content)
 	{
-		Author = author;
-		Post = post;
+		Author  = author;
+		Post    = post;
 		Content = content;
 	}
 
@@ -27,4 +29,6 @@ public class Comment
 
 	[StringLength(1000)]
 	public string Content { get; set; }
+
+	public int Likes { get; set; } = 0;
 }

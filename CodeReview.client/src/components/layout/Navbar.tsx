@@ -9,14 +9,16 @@ const navbar = () => {
             credentials: "include"
         })
         .then(async (response) => {
-            // ReSharper disable once TsResolvedFromInaccessibleModule
-            //setEmail(response.json());
-
+// ReSharper disable once TsResolvedFromInaccessibleModule
             const data = await response.json();
             setEmail(data.email);
         })
         .catch((error) => console.log(error));
     }
+
+    /*async function logOut() {
+        document.cookie = ".AspNetCore.Identity.Application=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    }*/
 
     function openSearch() {
         setSearch(true);
@@ -46,27 +48,15 @@ const navbar = () => {
         window.addEventListener("resize", handleResize);
     }, []);
 
-    const emailElement = email == undefined
-        ?
-        <div className="d-flex gap-2">
-            <a href="/account/login" className="btn btn-primary px-2">Login</a>
-            <a href="/account/register" className="d-none d-md-block btn btn-primary px-2">Register</a>
-        </div>
-        :
-        <div>
-            <a href="/account/info" className="d-none d-lg-block btn btn-light px-2">{email}</a>
-            <a href="/account/info" className="d-lg-none btn btn-primary bi bi-person"></a>
-        </div>;
-
     return (
-        <header className="sticky-top bg-body">
+        <header className="sticky-top bg-body" id="navbar">
             <nav className="navbar border-bottom border-2">
                 <div className="container-fluid flex-nowrap">
                     <a className={"navbar-brand" + (search ? " d-none" : "")} href="/#">
                         CodeReview
                     </a>
                     <div className={"bg-white d-flex flex-grow-1" + (search ? "" : " d-none")}>
-                        <form role="search" className="flex-grow-1">
+                        <form action="/" role="search" className="flex-grow-1">
                             <div className="d-flex gap-1 form-control py-0">
                                 <input type="text" name="search" placeholder="Search" id="mobile-search-bar" className="form-control-plaintext p-0" aria-label="Search" onChange={syncSearchInput}></input>
                                 <button type="submit" className="btn bi bi-search"></button>
@@ -78,13 +68,29 @@ const navbar = () => {
                         <div className="d-sm-none">
                             <button type="button" aria-expanded="false" className="btn btn-outline-secondary bi bi-search" onClick={openSearch}></button>
                         </div>
-                        <form role="search" className="d-none d-sm-block position-absolute center col-sm-6">
+                        <form action="/" role="search" className="d-none d-sm-block position-absolute center col-sm-5">
                             <div className="d-flex gap-2 form-control py-0">
                                 <input type="text" name="search" placeholder="Search" id="search-bar" className="form-control-plaintext" aria-label="Search" onChange={syncSearchInput}></input>
                                 <button type="submit" className="btn bi bi-search"></button>
                             </div>
                         </form>
-                        {emailElement}
+                        {email == undefined
+                            ?
+                            <div className="d-flex gap-2">
+                                <a href="/account/login" className="btn btn-primary px-2">Login</a>
+                                <a href="/account/register" className="d-none d-md-block btn btn-primary px-2">Register</a>
+                            </div>
+                            :
+                            <div className="dropdown">
+                                <span className="d-none d-lg-block btn btn-primary px-2">{email}</span>
+                                <span className="d-lg-none btn btn-primary bi bi-person" />
+                                {/*<button className="d-lg-none btn btn-primary bi bi-person" data-bs-toggle="dropdown" aria-expanded="false" />
+                                <ul className="dropdown-menu dropdown-menu-end">
+                                    <li key="profile"><a href="/account/info" className="dropdown-item">Profile</a></li>
+                                    <li key="logout"><button className="dropdown-item" onMouseDown={logOut}>Logout</button></li>
+                                </ul>*/}
+                            </div>
+                        }
                     </div>
                 </div>
             </nav>

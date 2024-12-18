@@ -1,10 +1,12 @@
 ﻿namespace CodeReview.Server.Models;
 
-public class PostView(int id, int authorId, string title, string content, IEnumerable<int> comments, DateTime createdAt, int likes)
+public class PostView(int id, int authorId, string authorUsername, string title, string content, IEnumerable<int> comments, DateTime createdAt, int likes)
 {
     public int Id { get; set; } = id;
 
     public int? AuthorId { get; set; } = authorId;
+
+    public string AuthorUsername { get; set; } = authorUsername;
 
     public string Title { get; set; } = title;
 

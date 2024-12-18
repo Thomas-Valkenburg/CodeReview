@@ -1,17 +1,17 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
-import Navbar from "./components/layout/Navbar.tsx"
-import Footer from "./components/layout/Footer.tsx"
-import Home from "./pages/Home.tsx"
-import Login_Register from "./pages/Account/Login_Register"
-import PostId from "./pages/Post/Id"
-import CreatePost from "./pages/Post/Create"
-import NotFound from "./pages/Error/NotFound"
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import Footer from "./components/layout/Footer.tsx";
+import Navbar from "./components/layout/Navbar.tsx";
+import Login_Register from "./pages/Account/Login_Register";
+import NotFound from "./pages/Error/NotFound";
+import Home from "./pages/Home.tsx";
+import CreatePost from "./pages/Post/Create";
+import PostId from "./pages/Post/Id";
 
 const app = () => (
     <Router>
-        <div className="container-xl">
+        <div className="container-xl d-flex flex-column">
             <Navbar />
-            <main role="main" className="pb-3">
+            <main role="main" className="flex-grow-1 py-1 py-sm-2 py-md-3 container">
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/account/login" element={<Login_Register />} />

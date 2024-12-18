@@ -1,7 +1,7 @@
 const footer = () => {
     return (
-        <footer className="p-4">
-            <hr className="vw-100"></hr>
+        <footer className="py-4">
+            <hr></hr>
             <div className="d-flex flex-row">
                 <div>
                     <span>CodeReview</span>

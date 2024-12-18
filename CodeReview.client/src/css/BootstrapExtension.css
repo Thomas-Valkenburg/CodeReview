@@ -49,3 +49,12 @@
 .btn-check:checked + .btn-bottom {
     border-bottom: var(--bs-btn-border-width) solid var(--bs-btn-border-color);
 }
+
+.focus-within-ring:focus-within {
+    outline: 0;
+    box-shadow: var(--bs-focus-ring-x,0) var(--bs-focus-ring-y,0) var(--bs-focus-ring-blur,0) var(--bs-focus-ring-width) var(--bs-focus-ring-color);
+}
+
+.focus-within-ring {
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}

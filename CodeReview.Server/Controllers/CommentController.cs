@@ -1,15 +1,16 @@
 ﻿using CodeReview.Core.Handlers;
+using CodeReview.DAL.Account;
 using CodeReview.Server.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Net.Mime;
 using System.Security.Claims;
+using CodeReview.Core.Models.EditorContent;
 
 namespace CodeReview.Server.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class CommentController(CommentHandler commentHandler) : ControllerBase
+public class CommentController(CommentHandler commentHandler, AccountContext accountContext) : ControllerBase
 {
     [HttpGet("{id:int}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -17,15 +18,19 @@ public class CommentController(CommentHandler commentHandler) : ControllerBase
     {
         var result = commentHandler.Get(id);
 
-		if (!result.Success || result.Value is null) return Task.FromResult<ActionResult<CommentView>>(NotFound());
+		if (!result.Success || result.Value is not { } comment) return Task.FromResult<ActionResult<CommentView>>(NotFound());
 
-		return Task.FromResult<ActionResult<CommentView>>(Ok(result.Value.CreateCommentView()));
+		var identityUser = accountContext.Users.Find(comment.Author.ApplicationUserId);
+
+		if (identityUser == null) return Task.FromResult<ActionResult<CommentView>>(StatusCode(500));
+
+		return Task.FromResult<ActionResult<CommentView>>(Ok(comment.CreateCommentView(identityUser)));
     }
 
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [Authorize]
-    public Task<ActionResult> CreateComment(int postId, string content)
+    public Task<ActionResult> CreateComment(int postId, EditorContent content)
     {
 	    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 

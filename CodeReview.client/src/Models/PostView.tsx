@@ -1,7 +1,8 @@
 class PostView {
-    constructor(id: number, authorId: number, title: string, content: string, comments: number[], createdAt: Date, likes: number) {
+    constructor(id: number, authorId: number, authorUsername: string, title: string, content: string, comments: number[], createdAt: Date, likes: number) {
         this.id = id;
         this.authorId = authorId;
+        this.authorUsername = authorUsername;
         this.title = title;
         this.content = content;
         this.comments = comments;
@@ -11,6 +12,7 @@ class PostView {
 
     id: number;
     authorId: number;
+    authorUsername;
     title: string;
     content: string;
     comments: number[];

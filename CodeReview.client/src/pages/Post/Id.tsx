@@ -1,16 +1,14 @@
-import { useState, useEffect } from "react"
-import { useParams } from "react-router-dom"
-import PostView from "../../Models/PostView"
-import User from "../../Models/User"
-import Comment from "../../Models/CommentView"
-import CommentEditor from "../../components/CommentEditor"
-import CopyToClipboard from "../../scripts/CopyToClipboard"
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import Comment from "../../Models/CommentView";
+import PostView from "../../Models/PostView";
+import CommentEditor from "../../components/NewFolder/CommentEditor";
+import CopyToClipboard from "../../scripts/CopyToClipboard";
 
 function id() {
     const params = useParams();
 
     const [post, setPost] = useState<PostView>();
-    const [user, setUser] = useState<User>();
     const [comments, setComments] = useState<Comment[]>();
 
     async function populatePost() {
@@ -20,24 +18,11 @@ function id() {
             // ReSharper disable once TsResolvedFromInaccessibleModule
             const data = await response.json() as PostView;
             setPost(data);
-            populateUser(data.authorId);
             populateComments(data.comments);
         }).catch((error) => {
             console.log(error);
         });
     }
-
-    async function populateUser(authorId: number) {
-        await fetch(`/api/user/${authorId}`, {
-            credentials: "include"
-        }).then(async (response) => {
-            // ReSharper disable once TsResolvedFromInaccessibleModule
-            const data = await response.json();
-            setUser(data);
-        }).catch((error) => {
-            console.log(`Error: ${error}`);
-        });
-    };
 
     async function populateComments(commentIds: number[]) {
 
@@ -56,48 +41,88 @@ function id() {
             });
         }
 
+        comments.sort((a, b) => {
+            return a.likes - b.likes;
+        });
+
         setComments(comments);
     };
+
+    async function PostLike(e: React.MouseEvent<HTMLButtonElement>) {
+        e.preventDefault();
+
+        const scrollPosition = window.scrollY;
+
+        window.scrollTo(null, scrollPosition - 50);
+    }
 
     useEffect(() => {
         populatePost();
     }, []);
 
-    if (post === undefined || post === null || user === undefined || user === null) {
+    if (post === undefined || post === null) {
         return <p className="p-3 m-auto text-center">Loading...</p>;
     }
 
     return (
         <div className="d-flex flex-column gap-4">
-            <div className="rounded-4 px-3 py-2 px-md-4 py-md-3 mt-3 mt-md-4">
-                <h2>{post.title}</h2>
-                <p>{post.content}</p>
-                <hr></hr>
-                <div className="d-flex flex-row justify-content-between">
-                    <div>
-                        <button id="share" className="btn btn-light" onClick={() => CopyToClipboard(window.location.href)}>Share</button>
+            <div className="d-flex flex-row gap-3 px-3 py-2 px-md-4 py-md-3">
+                <div>
+                    <div className="d-flex flex-column align-items-center">
+                        <button className="btn bi bi-arrow-up-circle p-0" style={{ fontSize: "1.5rem" }} onMouseDown={PostLike}></button>
+                        <span className="p-0" style={{ fontSize: "1.25rem" }}>{post.likes}</span>
                     </div>
-                    <a className="btn btn-light" href={`/user/${post.authorId}`}>{user.username}</a>
+                </div>
+                <div className="d-flex flex-column flex-grow-1">
+                    <h2>{post.title}</h2>
+                    <div className="flex-grow-1 overflow-hidden">
+                        <CommentEditor content={post.content} readOnly={true}>{post.content}</CommentEditor>
+                    </div>
+                    <div className="d-flex flex-row justify-content-between">
+                        <div>
+                            <button className="btn btn-outline-primary" onMouseDown={() => CopyToClipboard(window.location.host + window.location.pathname)}>Share</button>
+                        </div>
+                        <a className="d-none d-sm-block btn btn-outline-primary" href={`/user/${post.authorId}`}>{post.authorUsername}</a>
+                        <a className="d-sm-none btn btn-outline-primary bi bi-person" href={`/user/${post.authorId}`}></a>
+                    </div>
                 </div>
             </div>
-            <div>
-                {comments === undefined || comments === null ? 
-                    <h4 className="px-3 py-2 px-md-4 py-md-3 mt-3 mt-md-4">No answers yet.</h4>
-                    :
-                    <div>
-                        <h4 className="px-3 py-2 px-md-4 py-md-3 mt-3 mt-md-4">{comments.length} Answers:</h4>
-                        {
-                            comments.map(comment =>
-                                <div className="px-3 py-2 px-md-4 py-md-3 mt-3 mt-md-4">
-                                    <CommentEditor content={comment.content} readOnly={true}></CommentEditor>
-                                    <hr></hr>
+            <hr></hr>
+            {comments === undefined || comments === null ?
+                <h4 className="px-3 py-2 px-md-4 py-md-3">No answers yet.</h4>
+                :
+                <div>
+                    <h4 className="px-3 py-2 px-md-4 py-md-3">{comments.length} {comments.length > 1 ? "Answers:" : "Answer"}:</h4>
+                    {
+                        comments.map(comment =>
+                            <div id={`answer-${comment.id}`} key={comment.id} style={{ scrollMarginTop: document.getElementById("navbar").scrollHeight }}>
+                                <div className="d-flex gap-3 px-3 py-2 px-md-4 py-md-3">
+                                    <div className="d-flex flex-column align-items-center">
+                                        <button className="btn bi bi-arrow-up-circle p-0" style={{ fontSize: "1.5rem" }} onMouseDown={PostLike}></button>
+                                        <span className="p-0" style={{ fontSize: "1.25rem" }}>{comment.likes}</span>
+                                    </div>
+                                    <div className="d-flex flex-column flex-grow-1">
+                                        <div className="flex-grow-1">
+                                            <CommentEditor content={comment.content} readOnly={true}></CommentEditor>
+                                        </div>
+                                        <div className="d-flex flex-row justify-content-between">
+                                            <div>
+                                                <button className="btn btn-outline-primary" onClick={() => CopyToClipboard(window.location.host + window.location.pathname + `#answer-${comment.id}`)}>Share</button>
+                                            </div>
+                                            <div>
+                                                <a href={`/user/${comment.authorId}`} className="d-none d-sm-block btn btn-outline-primary">{comment.authorUsername}</a>
+                                                <a href={`/user/${comment.authorId}`} className="d-sm-none btn btn-outline-primary bi bi-person"></a>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            )
-                        }
-                    </div>
-                }
-            </div>
-            <div className="rounded-4 px-3 py-2 px-md-4 py-md-3 mt-3 mt-md-4">
+                                <hr></hr>
+                            </div>
+                        )
+                    }
+                </div>
+            }
+            <div className="rounded-4 px-3 py-2 px-md-4 py-md-3">
                 <h4>Your answer:</h4>
                 <CommentEditor></CommentEditor>
             </div>
