@@ -9,16 +9,29 @@ const navbar = () => {
             credentials: "include"
         })
         .then(async (response) => {
-// ReSharper disable once TsResolvedFromInaccessibleModule
+            // ReSharper disable once TsResolvedFromInaccessibleModule
             const data = await response.json();
             setEmail(data.email);
         })
         .catch((error) => console.log(error));
     }
 
-    /*async function logOut() {
-        document.cookie = ".AspNetCore.Identity.Application=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    }*/
+    async function logout() {
+        await fetch(`/logout?returnUrl=${window.location.protocol}//${window.location.host}/`, {
+            credentials: "include",
+            method: "POST"
+        }).then(response => {
+            console.log(response);
+
+            // ReSharper disable TsResolvedFromInaccessibleModule
+            if (response.ok) {
+                if (response.redirected) {
+                    window.location.href = response.url;
+                }
+            }
+            // ReSharper restore TsResolvedFromInaccessibleModule
+        });
+    }
 
     function openSearch() {
         setSearch(true);
@@ -82,13 +95,12 @@ const navbar = () => {
                             </div>
                             :
                             <div className="dropdown">
-                                <span className="d-none d-lg-block btn btn-primary px-2">{email}</span>
-                                <span className="d-lg-none btn btn-primary bi bi-person" />
-                                {/*<button className="d-lg-none btn btn-primary bi bi-person" data-bs-toggle="dropdown" aria-expanded="false" />
+                                <button className="d-none d-lg-block btn btn-primary dropdown-toggle px-2" data-bs-toggle="dropdown" aria-expanded="false">{email}</button>
+                                <button className="d-lg-none btn btn-primary bi bi-list" data-bs-toggle="dropdown" aria-expanded="false" />
                                 <ul className="dropdown-menu dropdown-menu-end">
-                                    <li key="profile"><a href="/account/info" className="dropdown-item">Profile</a></li>
-                                    <li key="logout"><button className="dropdown-item" onMouseDown={logOut}>Logout</button></li>
-                                </ul>*/}
+                                    <li key="profile"><span className="dropdown-item">{email}</span></li>
+                                    <li key="logout"><button className="dropdown-item" onMouseDown={logout}>Logout</button></li>
+                                </ul>
                             </div>
                         }
                     </div>

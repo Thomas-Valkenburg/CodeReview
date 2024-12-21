@@ -1,10 +1,7 @@
-import { convertFromRaw, convertToRaw, Editor, EditorState, RawDraftContentState, RichUtils, Modifier, SelectionState } from "draft-js";
+import { convertFromRaw, convertToRaw, Editor, EditorState, RawDraftContentState, RichUtils } from "draft-js";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
 
 function PostForm(props: any) {
-    const params = useParams();
-
     const [errorMessage, setErrorMessage] = useState<string>();
     const [editorState, setEditorState] = useState<EditorState>(
         () => props.content === undefined ? EditorState.createEmpty() : EditorState.createWithContent(convertFromRaw(JSON.parse(props.content) as RawDraftContentState)),
@@ -13,20 +10,26 @@ function PostForm(props: any) {
     const submit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        console.log(convertToRaw(editorState.getCurrentContent()));
-
-        await fetch(`/api/post?title=${e.currentTarget.title.value}&editorContent=${JSON.stringify(convertToRaw(editorState.getCurrentContent()))}`, {
+        await fetch(
+                `/api/post?title=${e.currentTarget.title.value}&editorContent=${JSON.stringify(
+                    convertToRaw(editorState.getCurrentContent()))}`,
+                {
             method: "POST",
             credentials: "include"
         })
         .then(async (response) => {
             // ReSharper disable once TsResolvedFromInaccessibleModule
             if (response.ok) {
-                // ReSharper disable once TsResolvedFromInaccessibleModule
-                const responseData = await response.json();
+                try {
+                    // ReSharper disable once TsResolvedFromInaccessibleModule
+                    const responseData = await response.json();
 
-                window.location.href = `/post/${responseData.id}`;
-                return;
+                    props.history.push(`/post/${responseData.id}`);
+                    return;
+                } catch (e) {
+                    props.history.push("/");
+                    return;
+                }
             };
 
             // ReSharper disable once TsResolvedFromInaccessibleModule

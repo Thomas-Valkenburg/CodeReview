@@ -1,6 +1,5 @@
 ﻿using CodeReview.Core.Interfaces;
 using CodeReview.Core.Models;
-using CodeReview.Core.Models.EditorContent;
 
 namespace CodeReview.Core.Handlers;
 

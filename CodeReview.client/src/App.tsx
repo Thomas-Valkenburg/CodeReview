@@ -11,7 +11,7 @@ const app = () => (
     <Router>
         <div className="container-xl d-flex flex-column">
             <Navbar />
-            <main role="main" className="flex-grow-1 py-1 py-sm-2 py-md-3 container">
+            <main role="main" className="flex-grow-1 py-1 py-sm-2 py-md-3 container-xl">
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/account/login" element={<Login_Register />} />

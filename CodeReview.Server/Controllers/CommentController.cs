@@ -4,7 +4,6 @@ using CodeReview.Server.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using CodeReview.Core.Models.EditorContent;
 
 namespace CodeReview.Server.Controllers;
 

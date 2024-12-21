@@ -27,8 +27,8 @@ public static class Program
         builder.Services.AddTransient<PostHandler>();
         builder.Services.AddTransient<CommentHandler>();
 
-        // Add DbContext(s)
-        var connectionString = builder.Configuration.GetConnectionString("EFCoreSqlite") ??
+		// Add DbContext(s)
+		var connectionString = builder.Configuration.GetConnectionString("EFCoreSqlite") ??
                                throw new InvalidOperationException("Connection string 'EFCoreSqlite' not found.");
         builder.Services.AddDbContext<Context>(options => { options.UseSqlite(connectionString); });
 
@@ -36,8 +36,6 @@ public static class Program
                                       throw new InvalidOperationException(
                                           "Connection string 'EFCoreAccountSqlite' not found.");
         builder.Services.AddDbContext<AccountContext>(options => { options.UseSqlite(accountConnectionString); });
-
-        builder.Services.AddControllers();
 
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
@@ -68,8 +66,18 @@ public static class Program
         });
 
         builder.Services.AddAuthorization();
+        builder.Services.AddControllers();
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("AllowedOrigins", policy =>
+            {
+#if DEBUG
+                policy.WithOrigins("http://localhost:5173", "https://localhost:5173").AllowAnyHeader().AllowAnyMethod();
+#endif
+            });
+        });
 
-        builder.Services.AddIdentityApiEndpoints<IdentityUser>(options =>
+		builder.Services.AddIdentityApiEndpoints<IdentityUser>(options =>
         {
             options.SignIn.RequireConfirmedEmail    = false;
             options.Password.RequireNonAlphanumeric = false;
@@ -104,6 +112,8 @@ public static class Program
         app.MapIdentityApi<IdentityUser>();
 
         app.MapControllers();
+
+        app.UseCors("AllowedOrigins");
 
         app.MapFallbackToFile("/index.html");
 

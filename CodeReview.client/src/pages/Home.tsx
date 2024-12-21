@@ -39,7 +39,7 @@ function home() {
                     <a key={post.id} href={`/post/${post.id}`} className="card overflow-hidden text-decoration-none">
                         <div className="card-body">
                             <h5 className="card-title">{post.title}</h5>
-                            <div className="card-text overflow-hidden" style={{ "max-height": "150px" }}>
+                            <div className="card-text overflow-hidden" style={{ "maxHeight": "150px" }}>
                                 <Editor content={post.content} readOnly={true} />
                             </div>
                         </div>
