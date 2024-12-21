@@ -22,7 +22,7 @@ public class CommentHandler(UserHandler userHandler, PostHandler postHandler, IC
 		return Result.FromSuccess(comments);
 	}
 
-	public Result Create(string identityUserId, int postId, EditorContent editorContent)
+	public Result Create(string identityUserId, int postId, string content)
 	{
 		var userResult = userHandler.GetOrCreateUser(identityUserId);
 		var postResult = postHandler.GetPost(postId);
@@ -30,7 +30,7 @@ public class CommentHandler(UserHandler userHandler, PostHandler postHandler, IC
 		if (!userResult.Success || userResult.Value is not { } user) return Result.FromException("User not found");
 		if (!postResult.Success || postResult.Value is not { } post) return Result.FromException("Post not found");
 
-		var content = EditorContentHandler.Process(editorContent);
+		//var content = EditorContentHandler.Process(editorContent);
 
 		var newComment = new Comment(user, post, content);
 

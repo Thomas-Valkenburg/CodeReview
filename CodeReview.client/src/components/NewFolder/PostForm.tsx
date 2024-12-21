@@ -13,6 +13,8 @@ function PostForm(props: any) {
     const submit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
+        console.log(convertToRaw(editorState.getCurrentContent()));
+
         await fetch(`/api/post?title=${e.currentTarget.title.value}&editorContent=${JSON.stringify(convertToRaw(editorState.getCurrentContent()))}`, {
             method: "POST",
             credentials: "include"

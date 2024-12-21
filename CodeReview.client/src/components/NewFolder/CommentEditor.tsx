@@ -14,10 +14,9 @@ function CommentEditor(props: any) {
     async function postComment() {
         const content = convertToRaw(editorState.getCurrentContent());
 
-        await fetch(`/api/comment?postId=${params["id"]}`, {
+        await fetch(`/api/comment?postId=${params["id"]}&content=${JSON.stringify(content)}`, {
             credentials: "include",
             method: "POST",
-            body: JSON.stringify(content)
         });
     }
 

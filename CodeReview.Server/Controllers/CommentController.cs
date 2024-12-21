@@ -30,7 +30,7 @@ public class CommentController(CommentHandler commentHandler, AccountContext acc
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [Authorize]
-    public Task<ActionResult> CreateComment(int postId, EditorContent content)
+    public Task<ActionResult> CreateComment(int postId, string content)
     {
 	    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 

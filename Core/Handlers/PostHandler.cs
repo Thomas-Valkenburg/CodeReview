@@ -16,11 +16,11 @@ public class PostHandler(IPostService postService)
 		return post is null ? Result.FromException<Post>("Post not found") : Result.FromSuccess(post);
 	}
 
-	public Result<Post> CreatePost(User user, string title, EditorContent editorContent)
+	public Result<Post> CreatePost(User user, string title, string content)
 	{
 		if (user is null) return Result.FromException<Post>("User not found");
 
-		var content = EditorContentHandler.Process(editorContent);
+		//var content = EditorContentHandler.Process(editorContent);
 
 		var newPost = new Post(user, title, content);
 
