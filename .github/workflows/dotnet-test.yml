@@ -16,6 +16,7 @@ jobs:
 
     steps:
         - name: Build
-          uses: Thomas-Valkenburg/CodeReview/actions/dotnet-build@main
+          uses: Thomas-Valkenburg/CodeReview/.github/workflows/dotnet-build.yml@main
+          
         - name: Test
           run: dotnet test --no-build --verbosity normal
