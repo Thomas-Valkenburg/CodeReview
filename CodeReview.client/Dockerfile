@@ -6,11 +6,11 @@
 
 # Want to help us make this template better? Share your feedback here: https://forms.gle/ybq9Krt8jtBL3iCk7
 
-ARG NODE_VERSION=20.17.0
+ARG NODE_VERSION=20
 
 ################################################################################
 # Use node image for base image for all stages.
-FROM node:${NODE_VERSION}-alpine as base
+FROM node:${NODE_VERSION}-alpine AS base
 
 # Set working directory for all build stages.
 WORKDIR /app
@@ -21,6 +21,10 @@ RUN npm install
 
 COPY . .
 
+RUN npm run build 
+
+RUN npm install -g serve
+
 EXPOSE 8080
 
-CMD [ "npm", "run" ]
+CMD [ "serve", "-s", "dist", "-l", "8080" ]

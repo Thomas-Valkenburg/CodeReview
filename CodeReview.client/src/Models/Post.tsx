@@ -1,10 +1,12 @@
 import user from "./User";
 
-interface post {
+interface IPost {
     id: number;
-    author?: user;
+    author: user;
     title: string;
+    createdAt: Date;
     content: string;
+    likes: number;
 }
 
-export default post;
+export default IPost;

@@ -2,7 +2,7 @@
 // ReSharper disable UnusedLocalImport
 
 import { fileURLToPath, URL } from "node:url";
-import { defineConfig } from "vite";
+import { defineConfig, searchForWorkspaceRoot } from "vite";
 import plugin from "@vitejs/plugin-react";
 import fs from "fs";
 import path from "path";
@@ -48,7 +48,23 @@ export default defineConfig({
     },
     server: {
         proxy: {
-            '^/api/': {
+            '/manage/info': {
+                target,
+                secure: false
+            },
+            '/register': {
+                target,
+                secure: false
+            },
+            '/login': {
+                target,
+                secure: false
+            },
+            '/logout': {
+                target,
+                secure: false
+            },
+            '/api': {
                 target,
                 secure: false
             }
@@ -60,6 +76,8 @@ export default defineConfig({
         }
     }
 })
+
+console.log(searchForWorkspaceRoot(process.cwd()))
 
 // ReSharper restore TsResolvedFromInaccessibleModule
 // ReSharper restore UnusedLocalImport

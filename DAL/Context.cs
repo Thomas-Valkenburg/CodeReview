@@ -1,8 +1,8 @@
-﻿using Domain.Interfaces;
-using Domain.Models;
+﻿using CodeReview.Core.Interfaces;
+using CodeReview.Core.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace DAL;
+namespace CodeReview.DAL;
 
 public class Context(DbContextOptions<Context> options) : DbContext(options), IDbContext
 {

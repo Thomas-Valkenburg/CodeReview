@@ -11,47 +11,12 @@ on:
     branches: [ "main", "dev" ]
 
 jobs:
-  Build:
-    runs-on: [self-hosted]
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 9.0.x
-        env:
-          DOTNET_INSTALL_DIR: "./.dotnet"
-
-      - name: Restore dependencies
-        run: dotnet restore
-
-      - name: Build
-        run: dotnet build --no-restore
-
   Test:
-    runs-on: [self-hosted]
-
-    needs: Build
+    runs-on: [self-hosted, linux]
 
     steps:
-        - name: Checkout code
-          uses: actions/checkout@v4
-
-        - name: Setup .NET
-          uses: actions/setup-dotnet@v4
-          with:
-            dotnet-version: 9.0.x
-          env:
-            DOTNET_INSTALL_DIR: "./.dotnet"
-
-        - name: Restore dependencies
-          run: dotnet restore
-
         - name: Build
-          run: dotnet build --no-restore
-
+          uses: Thomas-Valkenburg/CodeReview/.github/workflows/dotnet-build.yml@main
+          
         - name: Test
           run: dotnet test --no-build --verbosity normal
