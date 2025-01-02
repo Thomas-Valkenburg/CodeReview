@@ -24,6 +24,12 @@ function login() {
             };
 
             // ReSharper disable once TsResolvedFromInaccessibleModule
+            if (response.status === 401) {
+                setErrorMessage("Invalid email or password.");
+                return;
+            }
+
+            // ReSharper disable once TsResolvedFromInaccessibleModule
             const body = await response.json();
             setErrorMessage(body.title);
         })

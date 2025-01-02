@@ -82,6 +82,8 @@ public static class Program
             options.SignIn.RequireConfirmedEmail    = false;
             options.Password.RequireNonAlphanumeric = false;
             options.User.RequireUniqueEmail         = true;
+            options.Password.RequiredLength         = 8;
+            options.Password.RequireUppercase       = true;
         }).AddEntityFrameworkStores<AccountContext>();
 
         var app = builder.Build();
