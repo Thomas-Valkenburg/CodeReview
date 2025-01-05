@@ -1,14 +1,19 @@
 import { useState } from "react";
 
+class FormData {
+    email?: string;
+    password?: string;
+}
+
 function register() {
     const [formData, setFormData] = useState({
         email: "",
         password: ""
     });
 
-    const [errors, setErrors] = useState({});
+    const [errors, setErrors] = useState<FormData>({});
 
-    const handleChange = (e) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData({
             ...formData,
@@ -16,8 +21,8 @@ function register() {
         });
     };
 
-    const validateForm = (formData: any) : boolean => {
-        const newErrors = {};
+    const validateForm = (formData: FormData) : boolean => {
+        const newErrors: FormData = {};
 
         if (!formData.email) {
             newErrors.email = "Email is required";
@@ -25,7 +30,7 @@ function register() {
             newErrors.email = "Input is not a valid email";
         }
 
-        const passwordChars: string[] = Array.from(formData.password);
+        const passwordChars: string[] = Array.from(formData.password ?? "");
 
         if (!formData.password) {
             newErrors.password = "Password is required";
