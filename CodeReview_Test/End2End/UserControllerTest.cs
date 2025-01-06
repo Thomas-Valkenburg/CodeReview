@@ -1,6 +1,8 @@
 ﻿using CodeReview.Core.Models;
 using CodeReview.DAL;
+using CodeReview.DAL.Account;
 using CodeReview.Server;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net;
@@ -9,47 +11,68 @@ namespace CodeReview.Test.End2End;
 
 public class UserControllerTest
 {
-	[SetUp]
-	public void Setup()
-	{
-		var context = ServiceProviderHandler.GetScope().ServiceProvider.GetRequiredService<Context>();
+    [SetUp]
+    public async Task Setup()
+    {
+        await using var application = new TestWebApplicationFactory();
+        await using var scope = application.Services.CreateAsyncScope();
 
-		context.Database.EnsureCreated();
-	}
+        var context = scope.ServiceProvider.GetRequiredService<Context>();
 
-	[TearDown]
-	public void TearDown()
-	{
-		var context = ServiceProviderHandler.GetScope().ServiceProvider.GetRequiredService<Context>();
+        await context.Database.EnsureCreatedAsync();
 
-		context.ChangeTracker.Clear();
+        var accountContext = scope.ServiceProvider.GetRequiredService<AccountContext>();
 
-		context.Database.EnsureDeleted();
-	}
+        await accountContext.Database.EnsureCreatedAsync();
+    }
 
-	/*[Test]
+    [TearDown]
+    public async Task TearDown()
+    {
+        await using var application = new TestWebApplicationFactory();
+        await using var scope = application.Services.CreateAsyncScope();
+
+        var context = scope.ServiceProvider.GetRequiredService<Context>();
+
+        context.ChangeTracker.Clear();
+
+        await context.Database.EnsureDeletedAsync();
+
+        var accountContext = scope.ServiceProvider.GetRequiredService<AccountContext>();
+
+        accountContext.ChangeTracker.Clear();
+
+        await accountContext.Database.EnsureDeletedAsync();
+    }
+
+	[Test]
 	public async Task GetUser_Found_ShouldThrow_NoException()
 	{
-		//var context = ServiceProviderHandler.GetScope().ServiceProvider.GetRequiredService<Context>();
-
 		await using var application = new TestWebApplicationFactory();
 		using var       client      = application.CreateClient();
 
-		var context = application.Services.GetRequiredService<Context>();
+        await using var scope = application.Services.CreateAsyncScope();
 
-		var entityEntry = context.Users.Add(new User("1"));
+		var context = scope.ServiceProvider.GetRequiredService<Context>();
+		var accountContext = scope.ServiceProvider.GetRequiredService<AccountContext>();
 
-		Assert.DoesNotThrowAsync(async () =>
+        var accountEntity = accountContext.Users.Add(new IdentityUser("1"));
+
+        await accountContext.SaveChangesAsync();
+
+        var entityEntry = context.Users.Add(new User(accountEntity.Entity.Id));
+
+        await context.SaveChangesAsync();
+
+        Assert.DoesNotThrowAsync(async () =>
 		{
 			var response = await client.GetAsync($"/api/User/{entityEntry.Entity.Id}");
 
-			Console.WriteLine(response.StatusCode);
-
-			Assert.That(response.StatusCode == HttpStatusCode.OK);
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
 		});
-	}*/
+	}
 
-	/*[Test]
+	[Test]
 	public void GetUser_NotFound_ShouldThrow_NoException()
 	{
 		const string id = "1";
@@ -63,5 +86,5 @@ public class UserControllerTest
 
 			Assert.That(response.StatusCode is HttpStatusCode.NotFound);
 		});
-	}*/
+	}
 }

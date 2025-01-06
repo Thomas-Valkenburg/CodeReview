@@ -3,7 +3,6 @@ using CodeReview.Core.Interfaces;
 using CodeReview.DAL;
 using CodeReview.DAL.Account;
 using CodeReview.Server.Controllers;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 

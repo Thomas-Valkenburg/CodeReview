@@ -16,7 +16,6 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
-        builder.Services.AddScoped<AccountContext>();
 
         builder.Services.AddScoped<IUserService, UserService>();
         builder.Services.AddScoped<IPostService, PostService>();
@@ -93,8 +92,23 @@ public class Program
             var context = scope.ServiceProvider.GetRequiredService<Context>();
             var accountContext = scope.ServiceProvider.GetRequiredService<AccountContext>();
 
-            context.Database.Migrate();
-            accountContext.Database.Migrate();
+            if (context.Database.IsRelational())
+            {
+                context.Database.Migrate();
+            }
+            else
+            {
+                context.Database.EnsureCreated();
+            }
+
+            if (accountContext.Database.IsRelational())
+            {
+                accountContext.Database.Migrate();
+            }
+            else
+            {
+                accountContext.Database.EnsureCreated();
+            }
         }
 
         // Configure the HTTP request pipeline.

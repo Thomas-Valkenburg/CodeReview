@@ -5,32 +5,41 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace CodeReview.Test
+namespace CodeReview.Test;
+
+public class TestWebApplicationFactory : WebApplicationFactory<Program>
 {
-	public class TestWebApplicationFactory : WebApplicationFactory<Program>
-	{
-		protected override void ConfigureWebHost(IWebHostBuilder builder)
-		{
-			builder.UseTestServer();
+    protected override void ConfigureWebHost(IWebHostBuilder builder)
+    {
+        builder.UseTestServer();
 
-			builder.ConfigureTestServices(services =>
-			{
-				services.RemoveAll<Context>();
-				services.RemoveAll<AccountContext>();
+        builder.ConfigureServices(services =>
+        {
+            var contextDbDescriptor = services.SingleOrDefault(d => d.ServiceType == typeof(IDbContextOptionsConfiguration<Context>));
+            var accountContextDbDescriptor = services.SingleOrDefault(d => d.ServiceType == typeof(IDbContextOptionsConfiguration<AccountContext>));
 
-				services.AddDbContext<Context>(options =>
-				{
-					options.UseInMemoryDatabase("TestDb");
-				});
+            var contextDescriptor = services.SingleOrDefault(d => d.ServiceType == typeof(Context));
 
-				services.AddDbContext<AccountContext>(options =>
-				{
-					options.UseInMemoryDatabase("AccountTestDb");
-				});
-			});
-		}
-	}
+            services.Remove(contextDescriptor);
+            services.Remove(contextDbDescriptor);
+                
+            var accountContextDescriptor = services.SingleOrDefault(d => d.ServiceType == typeof(AccountContext));
+
+            services.Remove(accountContextDescriptor);
+            services.Remove(accountContextDbDescriptor);
+
+            services.AddDbContext<Context>(options =>
+            {
+                options.UseInMemoryDatabase("TestDb");
+            });
+
+            services.AddDbContext<AccountContext>(options =>
+            {
+                options.UseInMemoryDatabase("AccountTestDb");
+            });
+        });
+    }
 }
