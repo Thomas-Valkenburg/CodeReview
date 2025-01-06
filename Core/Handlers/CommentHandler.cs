@@ -8,6 +8,7 @@ public class CommentHandler(UserHandler userHandler, PostHandler postHandler, IC
 	public Result<Comment> Get(int id)
 	{
 		var comment = commentService.GetById(id);
+
 		return comment is null ? Result.FromException<Comment>("Comment not found") : Result.FromSuccess(comment);
 	}
 
@@ -15,9 +16,7 @@ public class CommentHandler(UserHandler userHandler, PostHandler postHandler, IC
 	{
 		var comments = commentService.GetAll(userId);
 
-		if (comments == null) return Result.FromException<List<Comment>>("User not found");
-
-		return Result.FromSuccess(comments);
+		return comments == null ? Result.FromException<List<Comment>>("User not found") : Result.FromSuccess(comments);
 	}
 
 	public Result Create(string identityUserId, int postId, string content)

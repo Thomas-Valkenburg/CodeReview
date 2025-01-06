@@ -8,7 +8,7 @@ public class PostHandler(IPostService postService)
 	public Result<List<Post>> GetPostList(int amount, SortOrder sortOrder = SortOrder.Newest, params List<string>? filterStrings) => 
 		Result.FromSuccess(postService.Take(amount, sortOrder, filterStrings));
 
-	public Result<Post> GetPost(int id)
+	public virtual Result<Post> GetPost(int id)
 	{
 		var post = postService.Get(id);
 

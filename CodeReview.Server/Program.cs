@@ -9,14 +9,13 @@ using Microsoft.OpenApi.Models;
 
 namespace CodeReview.Server;
 
-public static class Program
+public class Program
 {
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
-        builder.Services.AddScoped<IDbContext, Context>();
         builder.Services.AddScoped<AccountContext>();
 
         builder.Services.AddScoped<IUserService, UserService>();

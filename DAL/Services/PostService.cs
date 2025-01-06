@@ -38,9 +38,17 @@ public class PostService(Context context) : IPostService
 		return posts.Take(amount).ToList();
 	}
 
-	public void Create(Post post) => context.Posts.Add(post);
+	public void Create(Post post)
+	{
+		if (post.Author == null)
+		{
+			throw new NullReferenceException("Post author not found");
+		}
 
-    public void Update(Post post) => context.Posts.Update(post);
+		context.Posts.Add(post);
+	}
+
+	public void Update(Post post) => context.Posts.Update(post);
 
     public void Delete(int id) => context.Posts.Remove(Get(id) ?? throw new NullReferenceException("Post not found"));
 
