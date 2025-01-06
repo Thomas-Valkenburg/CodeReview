@@ -62,4 +62,4 @@ jobs:
           run: |
             bash <(curl -Ls https://coverage.codacy.com/get.sh) report \
               --project-token=${{ secrets.CODACY_PROJECT_TOKEN }} \
-              --coverage-reports=${{ env.SOLUTION_NAME}}_Test/lcov.info
+              --coverage-reports=./lcov.info
