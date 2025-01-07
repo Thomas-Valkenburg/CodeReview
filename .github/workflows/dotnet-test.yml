@@ -41,15 +41,13 @@ jobs:
           run: dotnet build ${{ env.SOLUTION_NAME }}.sln -c Release --no-restore
 
         - name: Test
-          run: |
-            mkdir -p coverage
-            dotnet test ${{ env.SOLUTION_NAME }}_Test/${{ env.SOLUTION_NAME }}.Test.csproj \
+          run: dotnet test ${{ env.SOLUTION_NAME }}_Test/${{ env.SOLUTION_NAME }}.Test.csproj \
             -c Release \
             --no-build \
             --verbosity normal \
             /p:CollectCoverage=true \
             /p:CoverletOutputFormat=lcov \
-            /p:CoverletOutput=coverage/lcov.info
+            /p:CoverletOutput=${{ env.SOLUTION_NAME }}_Test/lcov.info
 
         - name: Run Codacy Analysis CLI
           uses: codacy/codacy-analysis-cli-action@97bf5df3c09e75f5bcd72695998f96ebd701846e
@@ -70,4 +68,4 @@ jobs:
           run: |
             bash <(curl -Ls https://coverage.codacy.com/get.sh) report \
               --project-token=${{ secrets.CODACY_PROJECT_TOKEN }} \
-              --coverage-reports=coverage/lcov.info
+              --coverage-reports=${{ env.SOLUTION_NAME }}_Test/lcov.info
