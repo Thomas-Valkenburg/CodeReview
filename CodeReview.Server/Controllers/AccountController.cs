@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,7 +8,7 @@ namespace CodeReview.Server.Controllers;
 [ApiController]
 public class AccountController(SignInManager<IdentityUser> signInManager) : ControllerBase
 {
-	[AllowAnonymous]
+	[Authorize]
 	[HttpPost]
 	[ActionName("Logout")]
 	public async Task<ActionResult> LogoutPostAsync(string? returnUrl = null)
@@ -21,6 +20,6 @@ public class AccountController(SignInManager<IdentityUser> signInManager) : Cont
 			return Redirect(returnUrl);
 		}
 
-		return Redirect(Request.GetEncodedUrl());
+		return Ok();
 	}
 }

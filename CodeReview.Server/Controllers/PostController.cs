@@ -52,8 +52,6 @@ public class PostController(UserHandler userHandler, PostHandler postHandler, Ac
     [Authorize]
     public Task<ActionResult> CreatePost(string title, string editorContent)
     {
-        //var editorContent = new EditorContent {Blocks = blocks};
-
 	    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 	    var result = userHandler.GetOrCreateUser(userId ?? string.Empty);
 
