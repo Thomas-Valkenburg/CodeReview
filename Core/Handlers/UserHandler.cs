@@ -20,18 +20,14 @@ public class UserHandler(IUserService userService)
 	{
 		var user = userService.GetById(id);
 
-		if (user is not null) return Result.FromSuccess(user);
-
-		return Result.FromException<User>("User not found");
+		return user is not null ? Result.FromSuccess(user) : Result.FromException<User>("User not found");
 	}
 
 	public Result<User> GetUser(string id)
 	{
 		var user = userService.GetByAccountUserId(id);
 
-		if (user is not null) return Result.FromSuccess(user);
-
-		return Result.FromException<User>("User not found");
+		return user is not null ? Result.FromSuccess(user) : Result.FromException<User>("User not found");
 	}
 
 	/// <summary>
@@ -39,11 +35,14 @@ public class UserHandler(IUserService userService)
 	/// </summary>
 	/// <param name="id">The id of the identity account</param>
 	/// <returns>A new user object</returns>
-	public Result<User> GetOrCreateUser(string id)
+	public virtual Result<User> GetOrCreateUser(string id)
 	{
 		var result = GetUser(id);
 
-		if (result is {Success: true, Value: not null}) return result;
+		if (result is {Success: true, Value: not null})
+		{
+			return result;
+		}
 
 		var newUser = new User(id);
 

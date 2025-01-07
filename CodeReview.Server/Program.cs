@@ -9,15 +9,13 @@ using Microsoft.OpenApi.Models;
 
 namespace CodeReview.Server;
 
-public static class Program
+public class Program
 {
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
-        builder.Services.AddScoped<IDbContext, Context>();
-        builder.Services.AddScoped<AccountContext>();
 
         builder.Services.AddScoped<IUserService, UserService>();
         builder.Services.AddScoped<IPostService, PostService>();
@@ -82,6 +80,8 @@ public static class Program
             options.SignIn.RequireConfirmedEmail    = false;
             options.Password.RequireNonAlphanumeric = false;
             options.User.RequireUniqueEmail         = true;
+            options.Password.RequiredLength         = 8;
+            options.Password.RequireUppercase       = true;
         }).AddEntityFrameworkStores<AccountContext>();
 
         var app = builder.Build();
@@ -92,8 +92,23 @@ public static class Program
             var context = scope.ServiceProvider.GetRequiredService<Context>();
             var accountContext = scope.ServiceProvider.GetRequiredService<AccountContext>();
 
-            context.Database.Migrate();
-            accountContext.Database.Migrate();
+            if (context.Database.IsRelational())
+            {
+                context.Database.Migrate();
+            }
+            else
+            {
+                context.Database.EnsureCreated();
+            }
+
+            if (accountContext.Database.IsRelational())
+            {
+                accountContext.Database.Migrate();
+            }
+            else
+            {
+                accountContext.Database.EnsureCreated();
+            }
         }
 
         // Configure the HTTP request pipeline.
