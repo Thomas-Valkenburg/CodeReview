@@ -73,7 +73,7 @@ public class UserControllerTest
 	}
 
 	[Test]
-	public void GetUser_NotFound_ShouldThrow_NoException()
+	public void GetUser_NotFound_ShouldThrow_NotFound()
 	{
 		const string id = "1";
 
