@@ -1,12 +1,16 @@
 ﻿using CodeReview.DAL;
 using CodeReview.DAL.Account;
 using CodeReview.Server;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Options;
 
 namespace CodeReview.Test;
 
@@ -18,18 +22,9 @@ public class TestWebApplicationFactory : WebApplicationFactory<Program>
 
         builder.ConfigureServices(services =>
         {
-            var contextDbDescriptor = services.SingleOrDefault(d => d.ServiceType == typeof(IDbContextOptionsConfiguration<Context>));
-            var accountContextDbDescriptor = services.SingleOrDefault(d => d.ServiceType == typeof(IDbContextOptionsConfiguration<AccountContext>));
-
-            var contextDescriptor = services.SingleOrDefault(d => d.ServiceType == typeof(Context));
-
-            services.Remove(contextDescriptor);
-            services.Remove(contextDbDescriptor);
-                
-            var accountContextDescriptor = services.SingleOrDefault(d => d.ServiceType == typeof(AccountContext));
-
-            services.Remove(accountContextDescriptor);
-            services.Remove(accountContextDbDescriptor);
+            services.RemoveAll<IDbContextOptionsConfiguration<Context>>();
+            services.RemoveAll<IDbContextOptionsConfiguration<AccountContext>>();
+            services.RemoveAll<IConfigureOptions<AuthenticationOptions>>();
 
             services.AddDbContext<Context>(options =>
             {
@@ -40,6 +35,18 @@ public class TestWebApplicationFactory : WebApplicationFactory<Program>
             {
                 options.UseInMemoryDatabase("AccountTestDb");
             });
+
+			services.AddIdentityApiEndpoints<IdentityUser>(options =>
+			{
+				options.SignIn.RequireConfirmedEmail    = false;
+				options.Password.RequireNonAlphanumeric = false;
+				options.User.RequireUniqueEmail         = true;
+				options.Password.RequiredLength         = 8;
+				options.Password.RequireUppercase       = true;
+			}).AddEntityFrameworkStores<AccountContext>()
+			.AddSignInManager();
+
+			services.AddAuthorization();
         });
     }
 }

@@ -1,7 +1,9 @@
 ﻿using CodeReview.Core.Models;
 using CodeReview.DAL;
 using CodeReview.DAL.Account;
+using Microsoft.AspNetCore.Authorization.Policy;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net;
 using System.Text;
@@ -110,12 +112,30 @@ public class PostControllerTest
     }
 
     [Test]
-    public async Task CreatePost_ShouldThrow_NotAuthorized()
+    public async Task CreatePost_ShouldReturn_500BadRequest()
+    {
+	    await using var application = new TestWebApplicationFactory().WithWebHostBuilder(builder =>
+	    {
+		    builder.ConfigureServices(services =>
+		    {
+			    services.AddSingleton<IPolicyEvaluator, FakePolicyEvaluator>();
+		    });
+	    });
+
+	    using var client = application.CreateClient();
+
+		Assert.DoesNotThrowAsync(async () =>
+	    {
+		    var response = await client.PostAsync("/api/Post", new StringContent(JsonSerializer.Serialize(new { title = "Title", editorContent = "Content" }), Encoding.UTF8, "application/json"));
+		    Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+	    });
+    }
+
+	[Test]
+    public async Task CreatePost_ShouldThrow_401Unauthorized()
     {
         await using var application = new TestWebApplicationFactory();
         using var client = application.CreateClient();
-
-        await using var scope = application.Services.CreateAsyncScope();
 
         Assert.DoesNotThrowAsync(async () =>
         {
