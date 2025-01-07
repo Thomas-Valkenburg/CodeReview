@@ -41,13 +41,7 @@ jobs:
           run: dotnet build ${{ env.SOLUTION_NAME }}.sln -c Release --no-restore
 
         - name: Test
-          run: dotnet test ${{ env.SOLUTION_NAME }}_Test/${{ env.SOLUTION_NAME }}.Test.csproj \
-            -c Release \
-            --no-build \
-            --verbosity normal \
-            /p:CollectCoverage=true \
-            /p:CoverletOutputFormat=lcov \
-            /p:CoverletOutput=${{ env.SOLUTION_NAME }}_Test/lcov.info
+          run: dotnet test ${{ env.SOLUTION_NAME }}_Test/${{ env.SOLUTION_NAME }}.Test.csproj -c Release --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=${{ env.SOLUTION_NAME }}_Test/lcov.info
 
         - name: Run Codacy Analysis CLI
           uses: codacy/codacy-analysis-cli-action@97bf5df3c09e75f5bcd72695998f96ebd701846e
