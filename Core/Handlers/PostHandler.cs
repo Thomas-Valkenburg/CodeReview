@@ -19,8 +19,6 @@ public class PostHandler(IPostService postService)
 	{
 		if (user is null) return Result.FromException<Post>("User not found");
 
-		//var content = EditorContentHandler.Process(editorContent);
-
 		var newPost = new Post(user, title, content);
 
 		postService.Create(newPost);
