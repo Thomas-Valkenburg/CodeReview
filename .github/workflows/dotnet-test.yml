@@ -48,7 +48,7 @@ jobs:
             --verbosity normal \
             /p:CollectCoverage=true \
             /p:CoverletOutputFormat=lcov \
-            /p:CoverletOutput=coverage/
+            /p:CoverletOutput=coverage/lcov.info
 
         - name: Run Codacy Analysis CLI
           uses: codacy/codacy-analysis-cli-action@97bf5df3c09e75f5bcd72695998f96ebd701846e
@@ -65,7 +65,7 @@ jobs:
           with:
             sarif_file: results.sarif
 
-        - name: Send Coverage to Codacy 📈
+        - name: Send Coverage to Codacy
           run: |
             bash <(curl -Ls https://coverage.codacy.com/get.sh) report \
               --project-token=${{ secrets.CODACY_PROJECT_TOKEN }} \
