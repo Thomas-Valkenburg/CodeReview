@@ -35,13 +35,16 @@ jobs:
             DOTNET_INSTALL_DIR: "./.dotnet"
 
         - name: Restore dependencies
-          run: dotnet restore
+          run: dotnet restore ${{ env.SOLUTION_NAME }}.sln
 
         - name: Build
-          run: dotnet build --no-restore
+          run: dotnet build ${{ env.SOLUTION_NAME }}.sln -c Release --no-restore
 
         - name: Test
-          run: dotnet test ${{ env.SOLUTION_NAME }}_Test/${{ env.SOLUTION_NAME }}.Test.csproj --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=./lcov.info
+          run: |
+            pwd
+            dotnet test ${{ env.SOLUTION_NAME }}_Test/${{ env.SOLUTION_NAME }}.Test.csproj -c Release --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=lcov.info
+            pwd
 
         - name: Run Codacy Analysis CLI
           uses: codacy/codacy-analysis-cli-action@97bf5df3c09e75f5bcd72695998f96ebd701846e
@@ -58,8 +61,10 @@ jobs:
           with:
             sarif_file: results.sarif
 
-        - name: Send Coverage to Codacy 📈
+        - name: Send Coverage to Codacy
           run: |
+            pwd
             bash <(curl -Ls https://coverage.codacy.com/get.sh) report \
               --project-token=${{ secrets.CODACY_PROJECT_TOKEN }} \
-              --coverage-reports=lcov.info
+              --coverage-reports=${{ env.SOLUTION_NAME }}_Test/bin/Release/net9.0/lcov.info
+            pwd
