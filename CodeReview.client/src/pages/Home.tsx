@@ -6,7 +6,9 @@ function home() {
     const [posts, setPosts] = useState<PostView[]>();
 
     async function populatePosts() {
-        await fetch("/api/Post/list",
+        const search = new URLSearchParams(window.location.search).get("search");
+
+        await fetch(`/api/post/list${search === null ? "" : `?search=${search}`}`,
         {
             credentials: "include"
         })

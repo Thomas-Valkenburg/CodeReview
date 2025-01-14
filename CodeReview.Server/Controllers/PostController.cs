@@ -1,4 +1,5 @@
-﻿using CodeReview.Core.Handlers;
+﻿using CodeReview.Core;
+using CodeReview.Core.Handlers;
 using CodeReview.DAL.Account;
 using CodeReview.Server.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -13,9 +14,9 @@ public class PostController(UserHandler userHandler, PostHandler postHandler, Ac
 {
     [HttpGet]
     [Route("list")]
-    public Task<ActionResult<IEnumerable<PostView>>> GetPostList()
+    public Task<ActionResult<IEnumerable<PostView>>> GetPostList(string? search = null)
     {
-	    var result = postHandler.GetPostList(25);
+	    var result = postHandler.GetPostList(25, search is null ? SortOrder.Newest : SortOrder.Alphabetical, search?.Split(" ").ToList());
 
 	    if (!result.Success || result.Value is null) return Task.FromResult<ActionResult<IEnumerable<PostView>>>(NotFound("No posts found"));
 
