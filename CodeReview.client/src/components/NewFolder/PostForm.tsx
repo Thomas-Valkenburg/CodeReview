@@ -24,10 +24,10 @@ function PostForm(props: any) {
                     // ReSharper disable once TsResolvedFromInaccessibleModule
                     const responseData = await response.json();
 
-                    props.history.push(`/post/${responseData.id}`);
+                    window.location.href = `/post/${responseData.id}`;
                     return;
                 } catch (e) {
-                    props.history.push("/");
+                    window.location.href = "/";
                     return;
                 }
             };
