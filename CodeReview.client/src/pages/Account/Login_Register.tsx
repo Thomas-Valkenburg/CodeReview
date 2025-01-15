@@ -1,6 +1,6 @@
-import { useState } from "react"
-import Login from "../../components/account/Login.tsx"
-import Register from "../../components/account/Register"
+import { useState } from "react";
+import Login from "../../components/account/Login.tsx";
+import Register from "../../components/account/Register";
 
 function loginRegister() {
     const [login, setLogin] = useState(window.location.pathname === "/account/login");

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 const navbar = () => {
-    const [email, setEmail] = useState<String>();
+    const [email, setEmail] = useState<string>();
     const [search, setSearch] = useState<boolean>(false);
 
     async function populateAccountInformation() {
