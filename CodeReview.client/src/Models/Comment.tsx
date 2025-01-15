@@ -1,5 +1,5 @@
-import user from "./User";
 import post from "./Post";
+import user from "./User";
 
 interface IComment {
     id: number;

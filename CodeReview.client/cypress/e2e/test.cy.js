@@ -1,4 +1,5 @@
 // ReSharper disable UseOfImplicitGlobalInFunctionScope
+// ReSharper disable PossiblyUnassignedProperty
 
 describe("User stories", () => {
   const email = "email@email.com";
@@ -21,7 +22,7 @@ describe("User stories", () => {
     cy.visit(url.href ?? "/");
   }
 
-  function logout() {
+  /*function logout() {
     const url = cy.url();
   
     try {
@@ -36,7 +37,7 @@ describe("User stories", () => {
     } catch (e) {
       cy.visit(url.href ?? "/");
     }
-  }
+  }*/
 
   beforeEach(() => {
     cy.visit("/")
@@ -106,3 +107,4 @@ describe("User stories", () => {
 });
 
 // ReSharper restore UseOfImplicitGlobalInFunctionScope
+// ReSharper restore PossiblyUnassignedProperty

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Editor from "../components/NewFolder/CommentEditor";
+import Editor from "../components/Editors/CommentEditor";
 import PostView from "../Models/PostView";
 
 function home() {

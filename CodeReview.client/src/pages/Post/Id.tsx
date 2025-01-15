@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Comment from "../../Models/CommentView";
 import PostView from "../../Models/PostView";
-import CommentEditor from "../../components/NewFolder/CommentEditor";
+import CommentEditor from "../../components/Editors/CommentEditor";
 import CopyToClipboard from "../../scripts/CopyToClipboard";
 
 function id() {

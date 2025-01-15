@@ -1,9 +1,7 @@
-import { useState, useEffect } from "react"
-import PostForm from "../../components/NewFolder/PostForm";
+import { useEffect } from "react";
+import PostForm from "../../components/Editors/PostForm";
 
 function create() {
-    const [email, setEmail] = useState<String>();
-
     async function populateAccountInformation() {
         await fetch("/manage/info", {
             credentials: "include"
@@ -11,7 +9,7 @@ function create() {
         .then(async (response) => {
             // ReSharper disable once TsResolvedFromInaccessibleModule
             if (response.status === 401) {
-                window.location.href = "/account/login";
+                window.location.href = escape("/account/login");
             }
         })
         .catch((error) => console.log(error));

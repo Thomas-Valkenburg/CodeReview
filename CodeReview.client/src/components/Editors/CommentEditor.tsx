@@ -18,7 +18,7 @@ function CommentEditor(props: any) {
             credentials: "include",
             method: "POST",
         }).then(() => {
-            window.location.href = window.location.href;
+            window.location.href = escape(window.location.href);
         });
     }
 
