@@ -71,6 +71,8 @@ describe('User stories', () => {
 
     cy.get('.m-auto > .btn-primary').click();
 
+    cy.wait(500);
+    
     cy.get('#search-bar').type(title);
 
     cy.get('.d-sm-block > .d-flex > .btn').click();
