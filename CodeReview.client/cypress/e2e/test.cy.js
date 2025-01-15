@@ -1,6 +1,8 @@
 // ReSharper disable UseOfImplicitGlobalInFunctionScope
 // ReSharper disable PossiblyUnassignedProperty
 
+/* global cy */
+
 describe("User stories", () => {
   const email = "email@email.com";
   const password = "Password123!";
