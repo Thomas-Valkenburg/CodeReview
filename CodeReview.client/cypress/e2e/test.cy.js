@@ -75,28 +75,28 @@ describe('User stories', () => {
 
     cy.get('.d-sm-block > .d-flex > .btn').click();
 
-    cy.get('[href="/post/28"] > .card-body > .card-title').should('have.text', title);
+    cy.get('[href="/post/26"] > .card-body > .card-title').should('have.text', title);
   });
 
   it ("View Post", () => {
-    cy.get('[href="/post/28"]').click();
+    cy.get('[href="/post/26"]').click();
 
     cy.get('h2').should('have.text', title);
 
-    cy.get('.public-DraftStyleDefault-block > [data-offset-key="dnra-0-0"] > span').should('have.text', 'Cypress Test content');
+    cy.get('.public-DraftStyleDefault-block > [data-offset-key="9omk4-0-0"] > span').should('have.text', 'Cypress Test content');
   });
 
   it("Comment on Post", () => {
     login();
 
-    cy.get('[href="/post/28"]').click();
+    cy.get('[href="/post/26"]').click();
+
+    cy.wait(1000);
 
     cy.get('.notranslate').type("Cypress Test comment");
 
     cy.get('.flex-column > .btn-primary').click();
 
-    cy.visit(window.location.href);
-
-    cy.get('.public-DraftStyleDefault-block > [data-offset-key="evhds-0-0"] > span').should('have.text', 'Cypress Test comment');
+    cy.get('.public-DraftStyleDefault-block > [data-offset-key="7jvja-0-0"] > span').should('have.text', 'Cypress Test comment');
   });
 });
