@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import "../../css/CommentEditor.css";
 
-function CommentEditor(props: any) {
+function commentEditor(props: any) {
     const params = useParams();
 
     const [editorState, setEditorState] = useState<EditorState>(
@@ -112,4 +112,4 @@ function CommentEditor(props: any) {
     );
 }
 
-export default CommentEditor;
+export default commentEditor;

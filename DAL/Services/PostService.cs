@@ -27,11 +27,11 @@ public class PostService(Context context) : IPostService
 
 		posts = sortOrder switch
 		{
-			SortOrder.Alphabetical         => posts.OrderBy(post => post.Title).ToList(),
-			SortOrder.AlphabeticalInverted => posts.OrderByDescending(post => post.Title).ToList(),
-			SortOrder.Newest               => posts.OrderBy(post => post.CreatedAt).ToList(),
-			SortOrder.Oldest               => posts.OrderByDescending(post => post.CreatedAt).ToList(),
-			SortOrder.TopRated             => posts.OrderBy(post => post.Likes).ToList(),
+			SortOrder.Alphabetical         => posts.OrderByDescending(post => post.Title).ToList(),
+			SortOrder.AlphabeticalInverted => posts.OrderBy(post => post.Title).ToList(),
+			SortOrder.Newest               => posts.OrderByDescending(post => post.CreatedAt).ToList(),
+			SortOrder.Oldest               => posts.OrderBy(post => post.CreatedAt).ToList(),
+			SortOrder.TopRated             => posts.OrderByDescending(post => post.Likes).ToList(),
 			_                              => throw new ArgumentOutOfRangeException(nameof(sortOrder), sortOrder, null)
 		};
 

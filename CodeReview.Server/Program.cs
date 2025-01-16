@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebSockets;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using System.Net.WebSockets;
 
 namespace CodeReview.Server;
 
@@ -69,6 +70,8 @@ public class Program
         builder.Services.AddWebSockets(options =>
         {
             options.AllowedOrigins.Add("*");
+            options.KeepAliveInterval = TimeSpan.FromMinutes(1);
+            options.KeepAliveTimeout = TimeSpan.FromSeconds(5);
         });
 
         builder.Services.AddCors(options =>
@@ -137,8 +140,6 @@ public class Program
         app.UseWebSockets();
 
         app.UseCors("AllowedOrigins");
-
-        app.MapFallbackToFile("/index.html");
 
         app.Run();
     }

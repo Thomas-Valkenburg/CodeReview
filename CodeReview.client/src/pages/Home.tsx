@@ -3,7 +3,28 @@ import Editor from "../components/NewFolder/CommentEditor";
 import PostView from "../Models/PostView";
 
 function home() {
+    //const [notification, setNotification] = useState([]);
     const [posts, setPosts] = useState<PostView[]>();
+
+    async function openNotificationWebSocket() {
+        const websocket = new WebSocket("wss://localhost:7212/api/Notification");
+
+        websocket.onopen = () => {
+            console.log("Websocket connection opened");
+        }
+
+        websocket.onclose = () => {
+            console.log("Websocket connection closed");
+        }
+
+        websocket.onmessage = (e) => {
+            alert(e.data);
+        };
+
+        return () => {
+            websocket.close();
+        }
+    }
 
     async function populatePosts() {
         await fetch("/api/Post/list",
@@ -21,6 +42,7 @@ function home() {
 
     useEffect(() => {
         populatePosts();
+        openNotificationWebSocket();
     }, []);
 
     if (posts === undefined || posts === null) {

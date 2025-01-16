@@ -5,6 +5,8 @@ namespace CodeReview.Core.Handlers;
 
 public class PostHandler(IPostService postService)
 {
+    public static event EventHandler? OnPostCreated;
+
 	public Result<List<Post>> GetPostList(int amount, SortOrder sortOrder = SortOrder.Newest, params List<string>? filterStrings) => 
 		Result.FromSuccess(postService.Take(amount, sortOrder, filterStrings));
 
@@ -25,6 +27,8 @@ public class PostHandler(IPostService postService)
 		postService.SaveChanges();
 
 		var post = postService.GetAllFromUser(user.Id)?.OrderBy(x => x.CreatedAt).Last();
+
+		OnPostCreated?.Invoke(this, EventArgs.Empty);
 
 		return post is not null ? Result.FromSuccess(post) : Result.FromException<Post>("Unknown error");
 	}
