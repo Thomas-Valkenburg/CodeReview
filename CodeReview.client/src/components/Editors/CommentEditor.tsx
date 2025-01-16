@@ -17,6 +17,8 @@ function commentEditor(props: any) {
         await fetch(`/api/comment?postId=${params["id"]}&content=${JSON.stringify(content)}`, {
             credentials: "include",
             method: "POST",
+        }).then(() => {
+            window.location.href = escape(window.location.href);
         });
     }
 

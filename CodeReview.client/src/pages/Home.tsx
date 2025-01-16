@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Editor from "../components/NewFolder/CommentEditor";
+import Editor from "../components/Editors/CommentEditor";
 import PostView from "../Models/PostView";
 
 function home() {
@@ -27,7 +27,9 @@ function home() {
     }
 
     async function populatePosts() {
-        await fetch("/api/Post/list",
+        const search = new URLSearchParams(window.location.search).get("search");
+
+        await fetch(`/api/post/list${search === null ? "" : `?search=${search}`}`,
         {
             credentials: "include"
         })
