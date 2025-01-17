@@ -52,7 +52,7 @@ function id() {
         setComments(comments);
     };
 
-    async function PostLike(e: React.MouseEvent<HTMLButtonElement>) {
+    async function postLike(e: React.MouseEvent<HTMLButtonElement>) {
         e.preventDefault();
 
         const scrollPosition = window.scrollY;
@@ -73,7 +73,7 @@ function id() {
             <div className="d-flex flex-row gap-3 px-3 py-2 px-md-4 py-md-3">
                 <div>
                     <div className="d-flex flex-column align-items-center">
-                        <button className="btn bi bi-arrow-up-circle p-0" style={{ fontSize: "1.5rem" }} onMouseDown={PostLike}></button>
+                        <button className="btn bi bi-arrow-up-circle p-0" style={{ fontSize: "1.5rem" }} onMouseDown={postLike}></button>
                         <span className="p-0" style={{ fontSize: "1.25rem" }}>{post.likes}</span>
                     </div>
                 </div>
@@ -102,7 +102,7 @@ function id() {
                             <div id={`answer-${comment.id}`} key={comment.id} style={{ scrollMarginTop: document.getElementById("navbar").scrollHeight }}>
                                 <div className="d-flex gap-3 px-3 py-2 px-md-4 py-md-3">
                                     <div className="d-flex flex-column align-items-center">
-                                        <button className="btn bi bi-arrow-up-circle p-0" style={{ fontSize: "1.5rem" }} onMouseDown={PostLike}></button>
+                                        <button className="btn bi bi-arrow-up-circle p-0" style={{ fontSize: "1.5rem" }} onMouseDown={postLike}></button>
                                         <span className="p-0" style={{ fontSize: "1.25rem" }}>{comment.likes}</span>
                                     </div>
                                     <div className="d-flex flex-column flex-grow-1">

@@ -1,7 +1,7 @@
 import { convertFromRaw, convertToRaw, Editor, EditorState, RawDraftContentState, RichUtils } from "draft-js";
 import { useState } from "react";
 
-function PostForm(props: any) {
+function postForm(props: any) {
     const [errorMessage, setErrorMessage] = useState<string>();
     const [editorState, setEditorState] = useState<EditorState>(
         () => props.content === undefined ? EditorState.createEmpty() : EditorState.createWithContent(convertFromRaw(JSON.parse(props.content) as RawDraftContentState)),
@@ -121,4 +121,4 @@ function PostForm(props: any) {
     );
 }
 
-export default PostForm;
+export default postForm;

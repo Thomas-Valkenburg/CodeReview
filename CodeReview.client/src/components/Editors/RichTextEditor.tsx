@@ -3,7 +3,7 @@ import "draft-js/dist/Draft.css";
 import { useState } from "react";
 import "../../css/CommentEditor.css";
 
-function RichTextEditor(props: any) {
+function richTextEditor(props: any) {
     const [editorState, setEditorState] = useState<EditorState>(
         () => props.content === undefined ? EditorState.createEmpty() : EditorState.createWithContent(convertFromRaw(JSON.parse(props.content) as RawDraftContentState)),
     );
@@ -97,4 +97,4 @@ function RichTextEditor(props: any) {
     );
 }
 
-export default RichTextEditor;
+export default richTextEditor;

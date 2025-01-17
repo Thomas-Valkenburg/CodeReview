@@ -4,8 +4,10 @@ using CodeReview.DAL;
 using CodeReview.DAL.Account;
 using CodeReview.DAL.Services;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.WebSockets;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using System.Net.WebSockets;
 
 namespace CodeReview.Server;
 
@@ -16,7 +18,6 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
-
         builder.Services.AddScoped<IUserService, UserService>();
         builder.Services.AddScoped<IPostService, PostService>();
         builder.Services.AddScoped<ICommentService, CommentService>();
@@ -65,6 +66,14 @@ public class Program
 
         builder.Services.AddAuthorization();
         builder.Services.AddControllers();
+
+        builder.Services.AddWebSockets(options =>
+        {
+            options.AllowedOrigins.Add("*");
+            options.KeepAliveInterval = TimeSpan.FromMinutes(1);
+            options.KeepAliveTimeout = TimeSpan.FromSeconds(5);
+        });
+
         builder.Services.AddCors(options =>
         {
             options.AddPolicy("AllowedOrigins", policy =>
@@ -128,9 +137,9 @@ public class Program
 
         app.MapControllers();
 
-        app.UseCors("AllowedOrigins");
+        app.UseWebSockets();
 
-        app.MapFallbackToFile("/index.html");
+        app.UseCors("AllowedOrigins");
 
         app.Run();
     }

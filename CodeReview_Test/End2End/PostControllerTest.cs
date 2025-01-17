@@ -3,7 +3,6 @@ using CodeReview.DAL;
 using CodeReview.DAL.Account;
 using Microsoft.AspNetCore.Authorization.Policy;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net;
 using System.Text;

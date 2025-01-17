@@ -3,7 +3,28 @@ import Editor from "../components/Editors/CommentEditor";
 import PostView from "../Models/PostView";
 
 function home() {
+    //const [notification, setNotification] = useState([]);
     const [posts, setPosts] = useState<PostView[]>();
+
+    async function openNotificationWebSocket() {
+        const websocket = new WebSocket("wss://localhost:7212/api/Notification");
+
+        websocket.onopen = () => {
+            console.log("Websocket connection opened");
+        }
+
+        websocket.onclose = () => {
+            console.log("Websocket connection closed");
+        }
+
+        websocket.onmessage = (e) => {
+            alert(e.data);
+        };
+
+        return () => {
+            websocket.close();
+        }
+    }
 
     async function populatePosts() {
         const search = new URLSearchParams(window.location.search).get("search");
@@ -23,6 +44,7 @@ function home() {
 
     useEffect(() => {
         populatePosts();
+        openNotificationWebSocket();
     }, []);
 
     if (posts === undefined || posts === null) {
