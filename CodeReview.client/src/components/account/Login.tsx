@@ -41,16 +41,16 @@ function login() {
 
     return (
         <form className="d-flex flex-column gap-3" onSubmit={submit}>
-            {errorMessage == null ? "" : <p className="m-auto alert alert-danger">{errorMessage}</p>}
+            {errorMessage == null ? "" : <p className="m-auto alert alert-danger" data-id="login-error">{errorMessage}</p>}
             <div>
                 <label htmlFor="email" className="form-label">Email</label>
-                <input type="email" name="email" className="form-control" required></input>
+                <input type="email" name="email" className="form-control" required data-id="email"></input>
             </div>
             <div>
                 <label htmlFor="password" className="form-label">Password</label>
-                <input type="password" name="password" className="form-control" required></input>
+                <input type="password" name="password" className="form-control" required data-id="password"></input>
             </div>
-            <input type="submit" value="Log in" className="btn btn-primary rounded-5" />
+            <input type="submit" value="Log in" className="btn btn-primary rounded-5" data-id="submit" />
         </form >
     );
 }

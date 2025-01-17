@@ -94,12 +94,12 @@ const navbar = () => {
                                 <a href="/account/register" className="d-none d-md-block btn btn-primary px-2">Register</a>
                             </div>
                             :
-                            <div className="dropdown">
+                            <div className="dropdown" data-id="navbar-account-dropdown">
                                 <button className="d-none d-lg-block btn btn-primary dropdown-toggle px-2" data-bs-toggle="dropdown" aria-expanded="false">{email}</button>
                                 <button className="d-lg-none btn btn-primary bi bi-list" data-bs-toggle="dropdown" aria-expanded="false" />
                                 <ul className="dropdown-menu dropdown-menu-end">
-                                    <li key="profile"><span className="dropdown-item">{email}</span></li>
-                                    <li key="logout"><button className="dropdown-item" onMouseDown={logout}>Logout</button></li>
+                                    <li key="email"><span className="dropdown-item" data-id="navbar-email">{email}</span></li>
+                                    <li key="logout"><button className="dropdown-item" onMouseDown={logout} data-id="logout">Logout</button></li>
                                 </ul>
                             </div>
                         }

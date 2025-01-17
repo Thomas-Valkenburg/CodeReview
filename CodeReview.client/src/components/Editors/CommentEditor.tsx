@@ -18,7 +18,7 @@ function CommentEditor(props: any) {
             credentials: "include",
             method: "POST",
         }).then(() => {
-            window.location.href = escape(window.location.href);
+            window.location.href = escape(window.location.pathname);
         });
     }
 
@@ -96,7 +96,7 @@ function CommentEditor(props: any) {
                     </div>
                 </div>
                 <hr className="m-0"></hr>
-                <div className="p-2 overflow-hidden">
+                <div id="comment-content" className="p-2 overflow-hidden">
                     <Editor
                         editorState={editorState}
                         handleKeyCommand={handleKeyCommand}
@@ -109,7 +109,7 @@ function CommentEditor(props: any) {
                     />
                 </div>
             </div>
-            <button className="btn btn-primary align-self-center" onClick={postComment}>Add comment</button>
+            <button id="submit" className="btn btn-primary align-self-center" onClick={postComment}>Add comment</button>
         </div>
     );
 }

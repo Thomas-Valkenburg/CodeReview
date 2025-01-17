@@ -18,6 +18,7 @@ const app = () => (
                     <Route path="/account/register" element={<Login_Register />} />
                     <Route path="/post/:id" element={<PostId />} />
                     <Route path="/post/create" element={<CreatePost />} />
+                    <Route path="notfound" element={<NotFound />} />
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </main>

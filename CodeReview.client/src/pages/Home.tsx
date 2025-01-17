@@ -34,7 +34,7 @@ function home() {
             <div className="d-flex justify-content-between">
                 <div></div>
                 <div>
-                    <a href="/post/create" className="btn btn-success">Ask a question</a>
+                    <a id="create" href="/post/create" className="btn btn-success">Ask a question</a>
                 </div>
             </div>
             {posts.length > 0 ? posts.map(post =>

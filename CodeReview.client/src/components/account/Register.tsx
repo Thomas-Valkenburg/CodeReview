@@ -66,13 +66,7 @@ function register() {
         })
         .then((response) => {
             // ReSharper disable once TsResolvedFromInaccessibleModule
-            if (response.ok) {
-                window.location.href = "/";
-                return;
-            };
-
-            // ReSharper disable once TsResolvedFromInaccessibleModule
-            console.log(response.statusText);
+            window.location.href = escape("/account/login");
         })
         .catch((error) => {
             console.log(error);
@@ -87,19 +81,19 @@ function register() {
              </div>*/}
             <div>
                 <label htmlFor="email" className="form-label">Email</label>
-                <input type="email" name="email" value={formData.email} className="form-control" onChange={handleChange}></input>
+                <input type="email" name="email" value={formData.email} className="form-control" onChange={handleChange} data-id="email"></input>
                 {errors.email && (
-                    <span className="text-danger">{errors.email}</span>
+                    <span className="text-danger" data-id="email-error">{errors.email}</span>
                 )}
             </div>
             <div>
                 <label htmlFor="password" className="form-label">Password</label>
-                <input type="password" name="password" value={formData.password} className="form-control" onChange={handleChange}></input>
+                <input type="password" name="password" value={formData.password} className="form-control" onChange={handleChange} data-id="password" ></input>
                 {errors.password && (
-                    <span className="text-danger">{errors.password}</span>
+                    <span className="text-danger" data-id="password-error">{errors.password}</span>
                 )}
             </div>
-            <input type="submit" value="Register" className="btn btn-primary rounded-5" />
+            <input type="submit" value="Register" className="btn btn-primary rounded-5" data-id="submit" />
         </form >
     );
 }
