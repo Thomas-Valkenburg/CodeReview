@@ -15,6 +15,10 @@ function id() {
         await fetch(`/api/Post/${params["id"]}`, {
             credentials: "include"
         }).then(async (response) => {
+            if (!response.ok) {
+                window.location.href = escape("/notfound");
+            }
+
             // ReSharper disable once TsResolvedFromInaccessibleModule
             const data = await response.json() as PostView;
             setPost(data);
@@ -48,7 +52,7 @@ function id() {
         setComments(comments);
     };
 
-    async function PostLike(e: React.MouseEvent<HTMLButtonElement>) {
+    async function postLike(e: React.MouseEvent<HTMLButtonElement>) {
         e.preventDefault();
 
         const scrollPosition = window.scrollY;
@@ -69,14 +73,14 @@ function id() {
             <div className="d-flex flex-row gap-3 px-3 py-2 px-md-4 py-md-3">
                 <div>
                     <div className="d-flex flex-column align-items-center">
-                        <button className="btn bi bi-arrow-up-circle p-0" style={{ fontSize: "1.5rem" }} onMouseDown={PostLike}></button>
+                        <button className="btn bi bi-arrow-up-circle p-0" style={{ fontSize: "1.5rem" }} onMouseDown={postLike}></button>
                         <span className="p-0" style={{ fontSize: "1.25rem" }}>{post.likes}</span>
                     </div>
                 </div>
                 <div className="d-flex flex-column flex-grow-1">
-                    <h2>{post.title}</h2>
+                    <h2 id="title">{post.title}</h2>
                     <div className="flex-grow-1 overflow-hidden">
-                        <CommentEditor content={post.content} readOnly={true}>{post.content}</CommentEditor>
+                        <CommentEditor content={post.content} readOnly={true} id="content">{post.content}</CommentEditor>
                     </div>
                     <div className="d-flex flex-row justify-content-between">
                         <div>
@@ -98,7 +102,7 @@ function id() {
                             <div id={`answer-${comment.id}`} key={comment.id} style={{ scrollMarginTop: document.getElementById("navbar").scrollHeight }}>
                                 <div className="d-flex gap-3 px-3 py-2 px-md-4 py-md-3">
                                     <div className="d-flex flex-column align-items-center">
-                                        <button className="btn bi bi-arrow-up-circle p-0" style={{ fontSize: "1.5rem" }} onMouseDown={PostLike}></button>
+                                        <button className="btn bi bi-arrow-up-circle p-0" style={{ fontSize: "1.5rem" }} onMouseDown={postLike}></button>
                                         <span className="p-0" style={{ fontSize: "1.25rem" }}>{comment.likes}</span>
                                     </div>
                                     <div className="d-flex flex-column flex-grow-1">

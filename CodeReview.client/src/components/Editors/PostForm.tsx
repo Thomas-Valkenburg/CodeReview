@@ -1,7 +1,7 @@
 import { convertFromRaw, convertToRaw, Editor, EditorState, RawDraftContentState, RichUtils } from "draft-js";
 import { useState } from "react";
 
-function PostForm(props: any) {
+function postForm(props: any) {
     const [errorMessage, setErrorMessage] = useState<string>();
     const [editorState, setEditorState] = useState<EditorState>(
         () => props.content === undefined ? EditorState.createEmpty() : EditorState.createWithContent(convertFromRaw(JSON.parse(props.content) as RawDraftContentState)),
@@ -10,10 +10,7 @@ function PostForm(props: any) {
     const submit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        await fetch(
-                `/api/post?title=${e.currentTarget.title.value}&editorContent=${JSON.stringify(
-                    convertToRaw(editorState.getCurrentContent()))}`,
-                {
+        await fetch(`/api/post?title=${e.currentTarget.title.value}&editorContent=${JSON.stringify(convertToRaw(editorState.getCurrentContent()))}`, {
             method: "POST",
             credentials: "include"
         })
@@ -105,7 +102,7 @@ function PostForm(props: any) {
                         </div>
                     </div>
                     <hr className="m-0"></hr>
-                    <div className="p-2 overflow-hidden">
+                    <div id="content" className="p-2 overflow-hidden">
                         <Editor
                             editorState={editorState}
                             handleKeyCommand={handleKeyCommand}
@@ -119,9 +116,9 @@ function PostForm(props: any) {
                     </div>
                 </div>
             </div>
-            <button type="submit" className="btn btn-primary align-self-center px-4">Create</button>
+            <button id="submit" type="submit" className="btn btn-primary align-self-center px-4">Create</button>
         </form>
     );
 }
 
-export default PostForm;
+export default postForm;
